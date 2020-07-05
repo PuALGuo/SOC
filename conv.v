@@ -1,4 +1,3 @@
-
 //地址定义
 `define WGT_ADDR 32'h0000_2000
 `define INP_ADDR 32'h4000_0000
@@ -24,11 +23,20 @@ module conv
     output reg done
 
 );
-
+//////信号整合
+//信号太多了，反正valid和ready信号基本上一起变的，所以写在一起了
+wire conv_icb_cmd_rd    = conv_icb_cmd_valid & conv_icb_cmd_ready & conv_icb_cmd_read;
+wire conv_icb_cmd_wr    = conv_icb_cmd_valid & conv_icb_cmd_ready & (~conv_icb_cmd_read);
+/* //cmd_read和rsp_valid等信号可能是异步的，所以应该只要rsp就行了
+wire conv_icb_rsp_rd    = conv_icb_rsp_valid & conv_icb_rsp_ready & conv_icb_cmd_read;
+wire conv_icb_rsp_wr    = conv_icb_rsp_valid & conv_icb_rsp_ready & (~conv_icb_cmd_read);
+*/
+wire conv_icb_rsp       = conv_icb_rsp_valid & conv_icb_rsp_ready;
+//////计算所需buffer/reg
 parameter SIZE = 16;
 
 reg signed [7:0] input_data     [1:4]; //每次输入4*8bit的数据 分别是123行和234行，所以需要4个输入，23行复用
-reg signed [7:0] output_data    [1:4]; //每次输入4*8bit的数据 存疑
+reg signed [7:0] output_data    [1:4]; //每次输出4*8bit的数据 存疑
 
 reg signed [7:0] input_slice    [1:3][1:4]; //input_slice组成一个完整的3*3输入
 reg signed [7:0] weight_slice   [1:16][1:3][1:3]; 
@@ -41,8 +49,9 @@ parameter RINP = 2'b10;
 parameter WOUT = 2'b11;
 
 reg [1:0] present;
-reg [1:0] next;
+//reg [1:0] next;
 //present控制
+/*
 always @(posedge clk or negedge rst_n)
 begin
     if(!rst_n)
@@ -54,77 +63,132 @@ begin
         present <= next;    
     end
 end
+*/
 //next控制
 always @(*)
 begin
     if(!rst_n)
     begin
-        next <= 2'b00;
+        present <= 2'b00;
     end
     else
     begin
         case(present)
-        IDLE : 
-        RWGT :
-        RINP :
+        IDLE : if (start) present <= RWGT; else present <= present;
+        RWGT : if (rwgt_rsp_done) present <= RINP; else present <= present;
+        RINP : if (rinp_rsp_done) present <= WOUT; else present <= present;
         WOUT ：
-        default : next <= next;
+            if (wout_row_done && ~wout_all_done) 
+                present <= RINP;
+            else if (wout_all_done) 
+                present <= IDLE;
+            else
+                present <= present; 
+        default : present <= present;
     end
 end
 //流程计数
-reg [5:0] wgt_cnt; // 16*9/4=36
-reg [9:0] inp_cnt; // 32/2*34
-reg [9:0] out_cnt; // 32/2*32
+//发送和接收应该是两回事情，一个负责控制发送的valid等信号，一个负责维护自身状态机
+reg [ 5:0] wgt_cmd_cnt; // 16*9/4=36
+reg [ 5:0] wgt_rsp_cnt; // 16*9/4=36
+reg [ 9:0] inp_cmd_cnt; // 32/2*34=544
+reg [ 9:0] inp_rsp_cnt; // 32/2*34=544
+reg [13:0] out_cmd_cnt; // 32/2*32*16=8192
+reg [13:0] out_rsp_cnt; // 32/2*32*16=8192
 //weight计数控制
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        wgt_cnt <= 6'b0;
-    else if (wgt_cnt == 6'd36)
-        wgt_cnt <= 6'b0;
-    else if (present == RWGT)
-        wgt_cnt <= wgt_cnt + 1'b1;
+        wgt_cmd_cnt <= 6'b0;
+    else if (wgt_cmd_cnt == 6'd36)
+        wgt_cmd_cnt <= 6'b0;
+    else if (present == RWGT && conv_icb_cmd_rd)
+        wgt_cmd_cnt <= wgt_cmd_cnt + 1'b1;
     else
-        wgt_cnt <= wgt_cnt;
+        wgt_cmd_cnt <= wgt_cmd_cnt;
+end
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        wgt_rsp_cnt <= 6'b0;
+    else if (wgt_rsp_cnt == 6'd36)
+        wgt_rsp_cnt <= 6'b0;
+    else if (present == RWGT && conv_icb_rsp)
+        wgt_rsp_cnt <= wgt_rsp_cnt + 1'b1;
+    else
+        wgt_rsp_cnt <= wgt_rsp_cnt;
 end
 //read weight完成
-wire rwgt_done;
-assign rwgt_done = (wgt_cnt == 6'd36);
+wire rwgt_cmd_done;
+assign rwgt_cmd_done = (wgt_cmd_cnt == 6'd36);
+wire rwgt_rsp_done;
+assign rwgt_rsp_done = (wgt_rsp_cnt == 6'd36);
 //input计数控制
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        inp_cnt <= 10'b0;
-    else if (inp_cnt == 10'd544)
-        inp_cnt <= 10'b0;
-    else if (present == RINP)
-        inp_cnt <= inp_cnt + 1;
+        inp_cmd_cnt <= 10'b0;
+    else if (inp_cmd_cnt == 10'd544)
+        inp_cmd_cnt <= 10'b0;
+    else if (present == RINP && conv_icb_cmd_rd)
+        inp_cmd_cnt <= inp_cmd_cnt + 1;
     else
-        inp_cnt <= inp_cnt; 
+        inp_cmd_cnt <= inp_cmd_cnt; 
+end
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        inp_rsp_cnt <= 10'b0;
+    else if (inp_rsp_cnt == 10'd544)
+        inp_rsp_cnt <= 10'b0;
+    else if (present == RINP && conv_icb_rsp)
+        inp_rsp_cnt <= inp_rsp_cnt + 1;
+    else
+        inp_rsp_cnt <= inp_rsp_cnt; 
 end
 //read input完成
-wire rinp_done;
-assign rinp_done = (inp_cnt == 10'd544);
+wire rinp_cmd_done;
+assign rinp_cmd_done = (inp_cmd_cnt == 10'd544);
+wire rinp_rsp_done;
+assign rinp_rsp_done = (inp_rsp_cnt == 10'd544);
 //output计数控制
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        out_cnt <= 10'b0;
-    else if (out_cnt == 10'd512)
-        out_cnt <= 10'b0;
-    else if (present == WOUT)
-        out_cnt <= out_cnt + 1;
+        out_cmd_cnt <= 14'b0;
+    else if (out_cmd_cnt == 14'b8192)
+        out_cmd_cnt <= 14'b0;
+    else if (present == WOUT && conv_icb_cmd_wr)
+        out_cmd_cnt <= out_cmd_cnt + 1;
     else 
-        out_cnt <= out_cnt;
+        out_cmd_cnt <= out_cmd_cnt;
 end
-wire wout_done;
-assign wout_done = (out_cnt == 10'd512) //数据全部存储完毕
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        out_rsp_cnt <= 14'b0;
+    else if (out_rsp_cnt == 14'b8192)
+        out_rsp_cnt <= 14'b0;
+    else if (present == WOUT && conv_icb_rsp)
+        out_rsp_cnt <= out_rsp_cnt + 1;
+    else 
+        out_rsp_cnt <= out_rsp_cnt;
+end
+//write output完成
+wire wout_cmd_all_done;
+wire wout_rsp_all_done;
+wire wout_cmd_row_done;
+wire wout_rsp_row_done;
+assign wout_cmd_row_done = (out_cmd_cnt[7:0] == 5'd00) && conv_icb_cmd_wr; //行上执行2*16*32/4=256
+assign wout_rsp_row_done = (out_rsp_cnt[7:0] == 5'd00) && conv_icb_rsp;
+assign wout_cmd_all_done = (out_cmd_cnt == 14'd8192) && conv_icb_cmd_wr;//数据全部存储完毕
+assign wout_rsp_all_done = (out_rsp_cnt == 14'd8192) && conv_icb_rsp;
 //全部计算完成
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
         done <= 1'b0;
-    else if (wout_done)
+    else if (wout_rsp_all_done)
         done <= 1'b1;
     else
         done <= done; 

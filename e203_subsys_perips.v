@@ -1517,8 +1517,8 @@ module e203_subsys_perips(
   //  * PWM1      : 0x1002 5000 -- 0x1002 5FFF
   //  * QSPI2     : 0x1003 4000 -- 0x1003 4FFF
   //  * PWM2      : 0x1003 5000 -- 0x1003 5FFF
-  //  * Example-AXI      : 0x1004 0000 -- 0x1004 0FFF
-  //  * Example-APB      : 0x1004 1000 -- 0x1004 1FFF
+  //  * Example-AXI      : 0x1004 0000 -- 0x1004 0FFF // 你已经是我conv的形状了
+  //  * Example-APB      : 0x1004 1000 -- 0x1004 1FFF // 我是不是应该把你们删除，反正没啥用
   //  * Example-WishBone : 0x1004 2000 -- 0x1004 2FFF
   //  * SysPer    : 0x1100 0000 -- 0x11FF FFFF
 	
@@ -1887,6 +1887,7 @@ module e203_subsys_perips(
     .o12_icb_rsp_rdata  (sysper_icb_rsp_rdata),
 
    //  * Example AXI    
+   // 他变了，他已经变成我CNN的形状了
     .o13_icb_enable     (1'b1),
 
     .o13_icb_cmd_valid  (expl_axi_icb_cmd_valid),
