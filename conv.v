@@ -250,7 +250,7 @@ generate
                 input_slice [2][gv_i] <= 8'b0;
                 input_slice [3][gv_i] <= 8'b0;
             end
-            else if(present == RINP && conv_icb_cmd_rd)
+            else if(present == RINP && conv_icb_rsp_rd)
             begin
                 input_slice [1][gv_i] <= input_data  [gv_i];
                 input_slice [2][gv_i] <= input_slice [1][gv_i];
@@ -265,6 +265,26 @@ generate
         end
     end
 endgenerate
+//////weight输入
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        weight_slice[inp_rsp_cnt % 3 + 1][1] <= 8'b0;
+        weight_slice[inp_rsp_cnt % 3 + 1][2] <= 8'b0;
+        weight_slice[inp_rsp_cnt % 3 + 1][3] <= 8'b0;
+    else if (present == WOUT && conv_icb_rsp_rd)
+    begin
+        weight_slice[inp_rsp_cnt % 3 + 1][1] <= input_data[1];
+        weight_slice[inp_rsp_cnt % 3 + 1][2] <= input_data[2];
+        weight_slice[inp_rsp_cnt % 3 + 1][3] <= input_data[2];
+    end
+    else
+    begin
+        weight_slice[inp_rsp_cnt % 3 + 1][1] <= weight_slice[inp_rsp_cnt % 3 + 1][1];
+        weight_slice[inp_rsp_cnt % 3 + 1][2] <= weight_slice[inp_rsp_cnt % 3 + 1][2];
+        weight_slice[inp_rsp_cnt % 3 + 1][3] <= weight_slice[inp_rsp_cnt % 3 + 1][3];
+    end
+end
 //////ICB
 //valid
 always @(posedge clk or negedge rst_n)
@@ -311,7 +331,7 @@ begin
     else if(start_rise && wgt_cmd_cnt == 6'h0)
         weight_addr <= `WGT_ADDR;
     else if(present == RWGT && conv_icb_cmd_rd && ~rwgt_cmd_done)
-        weight_addr <= `WGT_ADDR + 32'h4 + {wgt_cmd_cnt,2'b0};
+        weight_addr <= `WGT_ADDR + 32'h3 + wgt_cmd_cnt >> 1 + wgt_cmd_cnt;
     else 
         weight_addr <= weight_addr;
 end
