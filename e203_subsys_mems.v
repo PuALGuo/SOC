@@ -107,10 +107,29 @@ module e203_subsys_mems(
   input  rst_n
   );
 
-  //仲裁器定义//
+  //////仲裁器定义
+  //输入信号定义 //我也不知道有多少信号，先这里写着
+  wire [2*1-1:0]                    arbt_bus_icb_cmd_valid;
+  wire [2*1-1:0]                    arbt_bus_icb_cmd_ready;
+  wire [2*`E203_ADDR_SIZE-1:0]      arbt_bus_icb_cmd_addr; 
+  wire [2*1-1:0]                    arbt_bus_icb_cmd_read; 
+  wire [2*`E203_XLEN-1:0]           arbt_bus_icb_cmd_wdata;
+  wire [2*`E203_XLEN/8-1:0]         arbt_bus_icb_cmd_wmask;
 
-  //输入信号定义//
-  //我也不知道有多少信号，先这里写着
+  wire [2*1-1:0]                    arbt_bus_icb_cmd_lock;
+  wire [2*1-1:0]                    arbt_bus_icb_cmd_excl;
+  wire [2*2-1:0]                    arbt_bus_icb_cmd_size;
+  wire [2*1-1:0]                    arbt_bus_icb_cmd_usr;
+  wire [2*2-1:0]                    arbt_bus_icb_cmd_burst;
+  wire [2*2-1:0]                    arbt_bus_icb_cmd_beat;
+
+  wire [2*1-1:0]                    arbt_bus_icb_rsp_valid;
+  wire [2*1-1:0]                    arbt_bus_icb_rsp_ready;
+  wire [2*1-1:0]                    arbt_bus_icb_rsp_err;
+  wire [2*`E203_XLEN-1:0]           arbt_bus_icb_rsp_rdata;
+  
+  wire [2*1-1:0]                    arbt_bus_icb_rsp_excl_ok;
+  wire [2*1-1:0]                    arbt_bus_icb_rsp_usr;
 
   //仲裁输出信号定义，参考其他器件的输入定义
   wire                         arbt_icb_cmd_valid,
@@ -127,7 +146,23 @@ module e203_subsys_mems(
   //
   
   //将原本的mem线和现在conv线合并成arbt的输入
-  
+  assign arbt_icb_cmd_valid = {conv_icb_cmd_valid,mem_icb_cmd_valid};
+  assign arbt_icb_cmd_addr  = {conv_icb_cmd_addr,mem_icb_cmd_addr};
+  assign arbt_icb_cmd_read  = {conv_icb_cmd_read,mem_icb_cmd_read};
+  assign arbt_icb_cmd_wdata = {conv_icb_cmd_wdata,mem_icb_cmd_wdata};
+  assign arbt_icb_cmd_wmask = {conv_icb_cmd_wmask,mem_icb_cmd_wmask};
+  assign arbt_icb_cmd_lock  = {1'b0,1'b0};
+  assign arbt_icb_cmd_burst = {2'b0,2'b0};
+  assign arbt_icb_cmd_beat  = {2'b0,2'b0};
+  assign arbt_icb_cmd_excl  = {1'b0,1'b0};
+  assign arbt_bus_icb_cmd_size = {2'b0,2'b0};
+  assign arbt_bus_icb_rsp_ready = {conv_icb_rsp_ready,mem_icb_rsp_ready};
+  assign arbt_bus_icb_cmd_usr = {1'b1,1'b0};
+  assign {conv_icb_cmd_ready,mem_icb_cmd_ready} = arbt_bus_icb_cmd_ready;
+  assign {conv_icb_rsp_valid,mem_icb_rsp_valid} = arbt_bus_icb_rsp_valid;
+  assign mem_icb_rsp_err = arbt_bus_icb_rsp_err[0];
+  assign {conv_icb_rsp_rdata,mem_icb_rsp_rdata} = arbt_bus_icb_rsp_rdata;
+
   //arbt模块例化, 官方给出的dtcm模块有关于ext2dtcm/lsu2dtcm的仲裁，以下是复制粘贴的
   //还没修改
   sirv_gnrl_icb_arbt # (
@@ -135,33 +170,33 @@ module e203_subsys_mems(
   .ALLOW_0CYCL_RSP (0),// Dont allow the 0 cycle response because in BIU we always have CMD_DP larger than 0
                        //   when the response come back from the external bus, it is at least 1 cycle later
                        //   for ITCM and DTCM, Dcache, .etc, definitely they cannot reponse as 0 cycle
-  .FIFO_OUTS_NUM   (`E203_LSU_OUTS_NUM),
+  .FIFO_OUTS_NUM   (8),
   .FIFO_CUT_READY  (0),
-  .ARBT_NUM   (LSU_ARBT_I_NUM),
-  .ARBT_PTR_W (LSU_ARBT_I_PTR_W),
-  .USR_W      (USR_W),
+  .ARBT_NUM   (2),
+  .ARBT_PTR_W (1),
+  .USR_W      (1),
   .AW         (`E203_ADDR_SIZE),
   .DW         (`E203_XLEN) 
-  ) u_lsu_icb_arbt(
+  ) u_mem_icb_arbt(
   .o_icb_cmd_valid        (arbt_icb_cmd_valid )     ,
   .o_icb_cmd_ready        (arbt_icb_cmd_ready )     ,
   .o_icb_cmd_read         (arbt_icb_cmd_read )      ,
   .o_icb_cmd_addr         (arbt_icb_cmd_addr )      ,
   .o_icb_cmd_wdata        (arbt_icb_cmd_wdata )     ,
   .o_icb_cmd_wmask        (arbt_icb_cmd_wmask)      ,
-  .o_icb_cmd_burst        (arbt_icb_cmd_burst)     ,
-  .o_icb_cmd_beat         (arbt_icb_cmd_beat )     ,
-  .o_icb_cmd_excl         (arbt_icb_cmd_excl )     ,
-  .o_icb_cmd_lock         (arbt_icb_cmd_lock )     ,
-  .o_icb_cmd_size         (arbt_icb_cmd_size )     ,
-  .o_icb_cmd_usr          (arbt_icb_cmd_usr  )     ,
+  .o_icb_cmd_burst        (                  )     ,
+  .o_icb_cmd_beat         (                  )     ,
+  .o_icb_cmd_excl         (                  )     ,
+  .o_icb_cmd_lock         (                  )     ,
+  .o_icb_cmd_size         (                  )     ,
+  .o_icb_cmd_usr          (                  )     ,
                                 
   .o_icb_rsp_valid        (arbt_icb_rsp_valid )     ,
   .o_icb_rsp_ready        (arbt_icb_rsp_ready )     ,
   .o_icb_rsp_err          (arbt_icb_rsp_err)        ,
-  .o_icb_rsp_excl_ok      (arbt_icb_rsp_excl_ok)    ,
+  .o_icb_rsp_excl_ok      (                   )    ,
   .o_icb_rsp_rdata        (arbt_icb_rsp_rdata )     ,
-  .o_icb_rsp_usr          (arbt_icb_rsp_usr   )     ,
+  .o_icb_rsp_usr          (                   )     ,
                                
   .i_bus_icb_cmd_ready    (arbt_bus_icb_cmd_ready ) ,
   .i_bus_icb_cmd_valid    (arbt_bus_icb_cmd_valid ) ,
@@ -198,6 +233,43 @@ module e203_subsys_mems(
   wire                         mrom_icb_rsp_err  ;
   wire [`E203_XLEN-1:0]        mrom_icb_rsp_rdata;
   //sram引脚定义，以下的expl应该是没用的
+  wire                     sram_weight_icb_cmd_valid;
+  wire                     sram_weight_icb_cmd_ready;
+  wire [32-1:0]            sram_weight_icb_cmd_addr; 
+  wire                     sram_weight_icb_cmd_read; 
+  wire [32-1:0]            sram_weight_icb_cmd_wdata;
+  wire [4 -1:0]            sram_weight_icb_cmd_wmask;
+  
+  wire                     sram_weight_icb_rsp_valid;
+  wire                     sram_weight_icb_rsp_ready;
+  wire [32-1:0]            sram_weight_icb_rsp_rdata;
+  wire                     sram_weight_icb_rsp_err;
+
+
+  wire                     sram_image_icb_cmd_valid;
+  wire                     sram_image_icb_cmd_ready;
+  wire [32-1:0]            sram_image_icb_cmd_addr; 
+  wire                     sram_image_icb_cmd_read; 
+  wire [32-1:0]            sram_image_icb_cmd_wdata;
+  wire [4 -1:0]            sram_image_icb_cmd_wmask;
+  
+  wire                     sram_image_icb_rsp_valid;
+  wire                     sram_image_icb_rsp_ready;
+  wire [32-1:0]            sram_image_icb_rsp_rdata;
+  wire                     sram_image_icb_rsp_err;
+
+  wire                     sram_out_icb_cmd_valid;
+  wire                     sram_out_icb_cmd_ready;
+  wire [32-1:0]            sram_out_icb_cmd_addr; 
+  wire                     sram_out_icb_cmd_read; 
+  wire [32-1:0]            sram_out_icb_cmd_wdata;
+  wire [4 -1:0]            sram_out_icb_cmd_wmask;
+  
+  wire                     sram_out_icb_rsp_valid;
+  wire                     sram_out_icb_rsp_ready;
+  wire [32-1:0]            sram_out_icb_rsp_rdata;
+  wire                     sram_out_icb_rsp_err;
+  /*
   wire                     expl_axi_icb_cmd_valid;
   wire                     expl_axi_icb_cmd_ready;
   wire [32-1:0]            expl_axi_icb_cmd_addr; 
@@ -209,10 +281,34 @@ module e203_subsys_mems(
   wire                     expl_axi_icb_rsp_ready;
   wire [32-1:0]            expl_axi_icb_rsp_rdata;
   wire                     expl_axi_icb_rsp_err;
+  */
   //	
   //sram控制信号和sram-icb控制信号的定义
   //不知道有多少
+  wire                            ram1_cs;
+  wire                            ram1_we;
+  wire [3:0]                      ram1_wem;
+  wire [9:0]                     ram1_addr;
+  wire [31:0]                     ram1_din;
+  wire [31:0]                     ram1_dout;
+  wire                            clk_ram1;                           
 
+  wire                            ram2_cs;
+  wire                            ram2_we;
+  wire [3:0]                      ram2_wem;
+  wire [9:0]                     ram2_addr;
+  wire [31:0]                     ram2_din;
+  wire [31:0]                     ram2_dout;
+  wire                            clk_ram2;                           
+
+  wire                            ram3_cs;
+  wire                            ram3_we;
+  wire [3:0]                      ram3_wem;
+  wire [9:0]                     ram3_addr;
+  wire [31:0]                     ram3_din;
+  wire [31:0]                     ram3_dout;
+  wire                            clk_ram3;  
+  //
  localparam MROM_AW = 12  ;
  localparam MROM_DP = 1024;
   // There are several slaves for Mem bus, including:
@@ -222,7 +318,11 @@ module e203_subsys_mems(
   //  * QSPI0-RO  : 0x2000 0000 -- 0x3FFF FFFF
   //  * SysMem    : 0x8000 0000 -- 0xFFFF FFFF
   //  SRAM地址空间定义
-  //  * SRAM
+  //  * SRAM   
+  //    weight    : 0x0000 2000 -- 0x0000 2fff
+  //    image     : 0x4000 0000 -- 0x4000 ffff
+  //    out       : 0x6000 0000 -- 0x6000 ffff
+
   sirv_icb1to8_bus # (
   .ICB_FIFO_DP        (2),// We add a ping-pong buffer here to cut down the timing path
   .ICB_FIFO_CUT_READY (1),// We configure it to cut down the back-pressure ready signal
@@ -249,36 +349,36 @@ module e203_subsys_mems(
   .O4_BASE_REGION_LSB (31),
   //  将下面的模块替换成自己的sram模块，如果要更多的接口，就把原来的1to8换成1to16
       // * Here is an example AXI Peripheral
-  .O5_BASE_ADDR       (32'h4000_0000),       
-  .O5_BASE_REGION_LSB (28),
+  .O5_BASE_ADDR       (32'h0000_2000),       
+  .O5_BASE_REGION_LSB (12),
   
       // Not used
-  .O6_BASE_ADDR       (32'h0000_0000),       
-  .O6_BASE_REGION_LSB (0),
+  .O6_BASE_ADDR       (32'h4000_0000),       
+  .O6_BASE_REGION_LSB (12),
   
       // Not used
-  .O7_BASE_ADDR       (32'h0000_0000),       
-  .O7_BASE_REGION_LSB (0)
+  .O7_BASE_ADDR       (32'h6000_0000),       
+  .O7_BASE_REGION_LSB (12)
 
   )u_sirv_mem_fab(
     // 跟MEM有关引脚连接上，这里应该是arbt的输出信号连接
-    .i_icb_cmd_valid  (mem_icb_cmd_valid),
-    .i_icb_cmd_ready  (mem_icb_cmd_ready),
-    .i_icb_cmd_addr   (mem_icb_cmd_addr ),
-    .i_icb_cmd_read   (mem_icb_cmd_read ),
-    .i_icb_cmd_wdata  (mem_icb_cmd_wdata),
-    .i_icb_cmd_wmask  (mem_icb_cmd_wmask),
+    .i_icb_cmd_valid  (arbt_icb_cmd_valid),
+    .i_icb_cmd_ready  (arbt_icb_cmd_ready),
+    .i_icb_cmd_addr   (arbt_icb_cmd_addr ),
+    .i_icb_cmd_read   (arbt_icb_cmd_read ),
+    .i_icb_cmd_wdata  (arbt_icb_cmd_wdata),
+    .i_icb_cmd_wmask  (arbt_icb_cmd_wmask),
     .i_icb_cmd_lock   (1'b0 ),
     .i_icb_cmd_excl   (1'b0 ),
     .i_icb_cmd_size   (2'b0 ),
     .i_icb_cmd_burst  (2'b0),
     .i_icb_cmd_beat   (2'b0 ),
     
-    .i_icb_rsp_valid  (mem_icb_rsp_valid),
-    .i_icb_rsp_ready  (mem_icb_rsp_ready),
-    .i_icb_rsp_err    (mem_icb_rsp_err  ),
+    .i_icb_rsp_valid  (arbt_icb_rsp_valid),
+    .i_icb_rsp_ready  (arbt_icb_rsp_ready),
+    .i_icb_rsp_err    (arbt_icb_rsp_err  ),
     .i_icb_rsp_excl_ok(),
-    .i_icb_rsp_rdata  (mem_icb_rsp_rdata),
+    .i_icb_rsp_rdata  (arbt_icb_rsp_rdata),
     
   //  * DM
     .o0_icb_enable     (1'b1),
@@ -390,66 +490,66 @@ module e203_subsys_mems(
    //  * Example AXI    
     .o5_icb_enable     (1'b1),
 
-    .o5_icb_cmd_valid  (expl_axi_icb_cmd_valid),
-    .o5_icb_cmd_ready  (expl_axi_icb_cmd_ready),
-    .o5_icb_cmd_addr   (expl_axi_icb_cmd_addr ),
-    .o5_icb_cmd_read   (expl_axi_icb_cmd_read ),
-    .o5_icb_cmd_wdata  (expl_axi_icb_cmd_wdata),
-    .o5_icb_cmd_wmask  (expl_axi_icb_cmd_wmask),
+    .o5_icb_cmd_valid  (sram_weight_icb_cmd_valid),
+    .o5_icb_cmd_ready  (sram_weight_icb_cmd_ready),
+    .o5_icb_cmd_addr   (sram_weight_icb_cmd_addr ),
+    .o5_icb_cmd_read   (sram_weight_icb_cmd_read ),
+    .o5_icb_cmd_wdata  (sram_weight_icb_cmd_wdata),
+    .o5_icb_cmd_wmask  (sram_weight_icb_cmd_wmask),
     .o5_icb_cmd_lock   (),
     .o5_icb_cmd_excl   (),
     .o5_icb_cmd_size   (),
     .o5_icb_cmd_burst  (),
     .o5_icb_cmd_beat   (),
     
-    .o5_icb_rsp_valid  (expl_axi_icb_rsp_valid),
-    .o5_icb_rsp_ready  (expl_axi_icb_rsp_ready),
-    .o5_icb_rsp_err    (expl_axi_icb_rsp_err),
+    .o5_icb_rsp_valid  (sram_weight_icb_rsp_valid),
+    .o5_icb_rsp_ready  (sram_weight_icb_rsp_ready),
+    .o5_icb_rsp_err    (sram_weight_icb_rsp_err),
     .o5_icb_rsp_excl_ok(1'b0  ),
-    .o5_icb_rsp_rdata  (expl_axi_icb_rsp_rdata),
+    .o5_icb_rsp_rdata  (sram_weight_icb_rsp_rdata),
 
 
         //  * Not used
-    .o6_icb_enable     (1'b0),
+    .o6_icb_enable     (1'b1),
 
-    .o6_icb_cmd_valid  (),
-    .o6_icb_cmd_ready  (1'b0),
-    .o6_icb_cmd_addr   (),
-    .o6_icb_cmd_read   (),
-    .o6_icb_cmd_wdata  (),
-    .o6_icb_cmd_wmask  (),
+    .o6_icb_cmd_valid  (sram_image_icb_cmd_valid),
+    .o6_icb_cmd_ready  (sram_image_icb_cmd_ready),
+    .o6_icb_cmd_addr   (sram_image_icb_cmd_addr ),
+    .o6_icb_cmd_read   (sram_image_icb_cmd_read ),
+    .o6_icb_cmd_wdata  (sram_image_icb_cmd_wdata),
+    .o6_icb_cmd_wmask  (sram_image_icb_cmd_wmask),
     .o6_icb_cmd_lock   (),
     .o6_icb_cmd_excl   (),
     .o6_icb_cmd_size   (),
     .o6_icb_cmd_burst  (),
     .o6_icb_cmd_beat   (),
     
-    .o6_icb_rsp_valid  (1'b0),
-    .o6_icb_rsp_ready  (),
-    .o6_icb_rsp_err    (1'b0  ),
+    .o6_icb_rsp_valid  (sram_image_icb_rsp_valid),
+    .o6_icb_rsp_ready  (sram_image_icb_rsp_ready),
+    .o6_icb_rsp_err    (sram_image_icb_rsp_err),
     .o6_icb_rsp_excl_ok(1'b0  ),
-    .o6_icb_rsp_rdata  (`E203_XLEN'b0),
+    .o6_icb_rsp_rdata  (sram_image_icb_rsp_rdata),
 
         //  * Not used
-    .o7_icb_enable     (1'b0),
+    .o7_icb_enable     (1'b1),
 
-    .o7_icb_cmd_valid  (),
-    .o7_icb_cmd_ready  (1'b0),
-    .o7_icb_cmd_addr   (),
-    .o7_icb_cmd_read   (),
-    .o7_icb_cmd_wdata  (),
-    .o7_icb_cmd_wmask  (),
+    .o7_icb_cmd_valid  (sram_out_icb_cmd_valid),
+    .o7_icb_cmd_ready  (sram_out_icb_cmd_ready),
+    .o7_icb_cmd_addr   (sram_out_icb_cmd_addr ),
+    .o7_icb_cmd_read   (sram_out_icb_cmd_read ),
+    .o7_icb_cmd_wdata  (sram_out_icb_cmd_wdata),
+    .o7_icb_cmd_wmask  (sram_out_icb_cmd_wmask),
     .o7_icb_cmd_lock   (),
     .o7_icb_cmd_excl   (),
     .o7_icb_cmd_size   (),
     .o7_icb_cmd_burst  (),
     .o7_icb_cmd_beat   (),
     
-    .o7_icb_rsp_valid  (1'b0),
-    .o7_icb_rsp_ready  (),
-    .o7_icb_rsp_err    (1'b0  ),
+    .o7_icb_rsp_valid  (sram_out_icb_rsp_valid),
+    .o7_icb_rsp_ready  (sram_out_icb_rsp_ready),
+    .o7_icb_rsp_err    (sram_out_icb_rsp_err),
     .o7_icb_rsp_excl_ok(1'b0  ),
-    .o7_icb_rsp_rdata  (`E203_XLEN'b0),
+    .o7_icb_rsp_rdata  (sram_out_icb_rsp_rdata),
 
     .clk           (clk  ),
     .rst_n         (bus_rst_n) 
@@ -476,56 +576,157 @@ module e203_subsys_mems(
   );
   //icb2SRAM的控制模块例化，e203官方的dtcm实现中有这个控制模块的例子
   sirv_sram_icb_ctrl #(
-      .DW     (`E203_DTCM_DATA_WIDTH),
-      .AW     (`E203_DTCM_ADDR_WIDTH),
-      .MW     (`E203_DTCM_WMSK_WIDTH),
-      .AW_LSB (2),// DTCM is 32bits wide, so the LSB is 2
-      .USR_W  (1) 
-  ) u_sram_icb_ctrl (
-     .sram_ctrl_active (dtcm_sram_ctrl_active),
-     .tcm_cgstop       (tcm_cgstop),
-     
-     .i_icb_cmd_valid (sram_icb_cmd_valid),
-     .i_icb_cmd_ready (sram_icb_cmd_ready),
-     .i_icb_cmd_read  (sram_icb_cmd_read ),
-     .i_icb_cmd_addr  (sram_icb_cmd_addr ), 
-     .i_icb_cmd_wdata (sram_icb_cmd_wdata), 
-     .i_icb_cmd_wmask (sram_icb_cmd_wmask), 
-     .i_icb_cmd_usr   (sram_icb_cmd_read ),
-  
-     .i_icb_rsp_valid (sram_icb_rsp_valid),
-     .i_icb_rsp_ready (sram_icb_rsp_ready),
-     .i_icb_rsp_rdata (sram_icb_rsp_rdata),
-     .i_icb_rsp_usr   (sram_icb_rsp_read),
-  
-     .ram_cs   (dtcm_ram_cs  ),  
-     .ram_we   (dtcm_ram_we  ),  
-     .ram_addr (dtcm_ram_addr), 
-     .ram_wem  (dtcm_ram_wem ),
-     .ram_din  (dtcm_ram_din ),          
-     .ram_dout (dtcm_ram_dout),
-     .clk_ram  (clk_dtcm_ram ),
-  
-     .test_mode(test_mode  ),
-     .clk  (clk  ),
-     .rst_n(rst_n)  
-    );
+  .DW(32),
+  .MW(4),
+  .AW(12),
+  .AW_LSB(2),
+  .USR_W(1)
+  ) i_sram_icn_ctrl_1(
+    .sram_ctrl_active(),
+    .tcm_cgstop(1'b0),
+    
+    .i_icb_cmd_valid(sram_weight_icb_cmd_valid),
+    .i_icb_cmd_ready(sram_weight_icb_cmd_ready),
+    .i_icb_cmd_read (sram_weight_icb_cmd_read),
+    .i_icb_cmd_addr (sram_weight_icb_cmd_addr[11:0]),
+    .i_icb_cmd_wdata(sram_weight_icb_cmd_wdata),
+    .i_icb_cmd_wmask(sram_weight_icb_cmd_wmask),
+    .i_icb_cmd_usr  (1'b0),
+    
+    .i_icb_rsp_valid(sram_weight_icb_rsp_valid),
+    .i_icb_rsp_ready(sram_weight_icb_rsp_ready),
+    .i_icb_rsp_rdata(sram_weight_icb_rsp_rdata),
+    .i_icb_rsp_usr  (sram_weight_icb_rsp_err),
+    
+    .ram_cs  (ram1_cs),
+    .ram_we  (ram1_we),
+    .ram_addr(ram1_addr),
+    .ram_wem (ram1_wem),
+    .ram_din (ram1_din),
+    .ram_dout(ram1_dout),
+    .clk_ram (clk_ram1),
+    
+    .test_mode(1'b0),
+    .clk(clk),
+    .rst_n(bus_rst_n)
+  );
   //
   //SRAM模块例化，sirv_gnrl_ram.v里有SRAM例化的例子
   sirv_sim_ram #(
-    .FORCE_X2ZERO (1'b0),
-    .DP (DP),
-    .AW (AW),
-    .MW (MW),
-    .DW (DW) 
-  )u_sirv_sim_ram (
-    .clk   (clk),
-    .din   (din),
-    .addr  (addr),
-    .cs    (cs),
-    .we    (we),
-    .wem   (wem),
-    .dout  (dout)
+      .FORCE_X2ZERO (1'b0),
+      .DP (1024),
+      .AW (10),
+      .MW (4),
+      .DW (32) 
+  )u_sirv_sim_ram1 (
+      .clk   (clk_ram1),
+      .din   (ram1_din),
+      .addr  (ram1_addr),
+      .cs    (ram1_cs),
+      .we    (ram1_we),
+      .wem   (ram1_wem),
+      .dout  (ram1_dout)
+  );
+  //image
+  sirv_sram_icb_ctrl #(
+  .DW(32),
+  .MW(4),
+  .AW(12),
+  .AW_LSB(2),
+  .USR_W(1)
+  ) i_sram_icn_ctrl_2(
+    .sram_ctrl_active(),
+    .tcm_cgstop(1'b0),
+    
+    .i_icb_cmd_valid(sram_image_icb_cmd_valid),
+    .i_icb_cmd_ready(sram_image_icb_cmd_ready),
+    .i_icb_cmd_read (sram_image_icb_cmd_read),
+    .i_icb_cmd_addr (sram_image_icb_cmd_addr[11:0]),
+    .i_icb_cmd_wdata(sram_image_icb_cmd_wdata),
+    .i_icb_cmd_wmask(sram_image_icb_cmd_wmask),
+    .i_icb_cmd_usr  (1'b0),
+    
+    .i_icb_rsp_valid(sram_image_icb_rsp_valid),
+    .i_icb_rsp_ready(sram_image_icb_rsp_ready),
+    .i_icb_rsp_rdata(sram_image_icb_rsp_rdata),
+    .i_icb_rsp_usr  (sram_image_icb_rsp_err),
+    
+    .ram_cs  (ram2_cs),
+    .ram_we  (ram2_we),
+    .ram_addr(ram2_addr),
+    .ram_wem (ram2_wem),
+    .ram_din (ram2_din),
+    .ram_dout(ram2_dout),
+    .clk_ram (clk_ram2),
+    
+    .test_mode(1'b0),
+    .clk(clk),
+    .rst_n(bus_rst_n)
+  );
+  sirv_sim_ram #(
+      .FORCE_X2ZERO (1'b0),
+      .DP (1024),
+      .AW (10),
+      .MW (4),
+      .DW (32) 
+  )u_sirv_sim_ram2 (
+      .clk   (clk_ram2),
+      .din   (ram2_din),
+      .addr  (ram2_addr),
+      .cs    (ram2_cs),
+      .we    (ram2_we),
+      .wem   (ram2_wem),
+      .dout  (ram2_dout)
+  );
+  sirv_sram_icb_ctrl #(
+  .DW(32),
+  .MW(4),
+  .AW(12),
+  .AW_LSB(2),
+  .USR_W(1)
+  ) i_sram_icn_ctrl_3(
+    .sram_ctrl_active(),
+    .tcm_cgstop(1'b0),
+    
+    .i_icb_cmd_valid(sram_wr_icb_cmd_valid),
+    .i_icb_cmd_ready(sram_wr_icb_cmd_ready),
+    .i_icb_cmd_read (sram_wr_icb_cmd_read),
+    .i_icb_cmd_addr (sram_wr_icb_cmd_addr[11:0]),
+    .i_icb_cmd_wdata(sram_wr_icb_cmd_wdata),
+    .i_icb_cmd_wmask(sram_wr_icb_cmd_wmask),
+    .i_icb_cmd_usr  (1'b0),
+    
+    .i_icb_rsp_valid(sram_wr_icb_rsp_valid),
+    .i_icb_rsp_ready(sram_wr_icb_rsp_ready),
+    .i_icb_rsp_rdata(sram_wr_icb_rsp_rdata),
+    .i_icb_rsp_usr  (sram_wr_icb_rsp_err),
+    
+    .ram_cs  (ram3_cs),
+    .ram_we  (ram3_we),
+    .ram_addr(ram3_addr),
+    .ram_wem (ram3_wem),
+    .ram_din (ram3_din),
+    .ram_dout(ram3_dout),
+    .clk_ram (clk_ram3),
+    
+    .test_mode(1'b0),
+    .clk(clk),
+    .rst_n(bus_rst_n)
+  );
+  sirv_sim_ram #(
+      .FORCE_X2ZERO (1'b0),
+      .DP (1024),
+      .AW (10),
+      .MW (4),
+      .DW (32) 
+  )u_sirv_sim_ram3 (
+      .clk   (clk_ram3),
+      .din   (ram3_din),
+      .addr  (ram3_addr),
+      .cs    (ram3_cs),
+      .we    (ram3_we),
+      .wem   (ram3_wem),
+      .dout  (ram3_dout)
   );
   //
 /* 原先的AXI2ICB没用到还占空间，删了删了

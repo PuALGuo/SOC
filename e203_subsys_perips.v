@@ -92,7 +92,7 @@ module e203_subsys_perips(
   output  [32-1:0]            conv_ro_icb_cmd_addr, 
   output                      conv_ro_icb_cmd_read, 
   output  [32-1:0]            conv_ro_icb_cmd_wdata,
-  output  [32/8-1:0]             conv_icb_cmd_wmask,      //jxgg额外的一条信号线 作用未知
+  output  [32/8-1:0]          conv_icb_cmd_wmask,      //jxgg额外的一条信号线 作用未知
   /* 前面有类似的定义 output [`E203_XLEN/8-1:0]      sysper_icb_cmd_wmask  */
   input                       conv_ro_icb_rsp_valid,
   output                      conv_ro_icb_rsp_ready,
@@ -1453,7 +1453,8 @@ module e203_subsys_perips(
   wire                     pwm2_icb_rsp_valid;
   wire                     pwm2_icb_rsp_ready;
   wire [32-1:0]            pwm2_icb_rsp_rdata;
-  //这段迷惑代码，跟jxgg说的不太一样
+  //host2conv的控制信号
+  /*
   wire                     expl_axi_icb_cmd_valid;
   wire                     expl_axi_icb_cmd_ready;
   wire [32-1:0]            expl_axi_icb_cmd_addr; 
@@ -1465,6 +1466,17 @@ module e203_subsys_perips(
   wire                     expl_axi_icb_rsp_ready;
   wire [32-1:0]            expl_axi_icb_rsp_rdata;
   wire                     expl_axi_icb_rsp_err;
+  */
+  wire                     conv_ctrl_icb_cmd_valid,
+  wire                     conv_ctrl_icb_cmd_ready,
+  wire [32-1:0]            conv_ctrl_icb_cmd_addr,
+  wire                     conv_ctrl_icb_cmd_read,
+  wire [32-1:0]            conv_ctrl_icb_cmd_wdata,
+  wire [4-1:0]             conv_ctrl_icb_cmd_wmask,
+
+  wire                     conv_ctrl_icb_rsp_valid,
+  wire                     conv_ctrl_icb_rsp_ready,
+  wire [32-1:0]            conv_ctrl_icb_rsp_rdata
   //
   wire                     expl_apb_icb_cmd_valid;
   wire                     expl_apb_icb_cmd_ready;
@@ -1890,23 +1902,23 @@ module e203_subsys_perips(
    // 他变了，他已经变成我CNN的形状了
     .o13_icb_enable     (1'b1),
 
-    .o13_icb_cmd_valid  (expl_axi_icb_cmd_valid),
-    .o13_icb_cmd_ready  (expl_axi_icb_cmd_ready),
-    .o13_icb_cmd_addr   (expl_axi_icb_cmd_addr ),
-    .o13_icb_cmd_read   (expl_axi_icb_cmd_read ),
-    .o13_icb_cmd_wdata  (expl_axi_icb_cmd_wdata),
-    .o13_icb_cmd_wmask  (expl_axi_icb_cmd_wmask),
+    .o13_icb_cmd_valid  (conv_ctrl_icb_cmd_valid),
+    .o13_icb_cmd_ready  (conv_ctrl_icb_cmd_ready),
+    .o13_icb_cmd_addr   (conv_ctrl_icb_cmd_addr ),
+    .o13_icb_cmd_read   (conv_ctrl_icb_cmd_read ),
+    .o13_icb_cmd_wdata  (conv_ctrl_icb_cmd_wdata),
+    .o13_icb_cmd_wmask  (conv_ctrl_icb_cmd_wmask),
     .o13_icb_cmd_lock   (),
     .o13_icb_cmd_excl   (),
     .o13_icb_cmd_size   (),
     .o13_icb_cmd_burst  (),
     .o13_icb_cmd_beat   (),
     
-    .o13_icb_rsp_valid  (expl_axi_icb_rsp_valid),
-    .o13_icb_rsp_ready  (expl_axi_icb_rsp_ready),
-    .o13_icb_rsp_err    (expl_axi_icb_rsp_err),
+    .o13_icb_rsp_valid  (conv_ctrl_icb_rsp_valid),
+    .o13_icb_rsp_ready  (conv_ctrl_icb_rsp_ready),
+    .o13_icb_rsp_err    (1'b0), //别问 问就是没有错误
     .o13_icb_rsp_excl_ok(1'b0  ),
-    .o13_icb_rsp_rdata  (expl_axi_icb_rsp_rdata),
+    .o13_icb_rsp_rdata  (conv_ctrl_icb_rsp_rdata),
 
    //  * Example APB    
     .o14_icb_enable     (1'b1),
@@ -2604,16 +2616,16 @@ conv_top i_conv(
     
 	//是一条额外的线，用来传信息，原本的axi2icb被删了
 	//所以这个引脚的定义也不对
-    .expl_axi_icb_cmd_valid(expl_axi_icb_cmd_valid),
-    .expl_axi_icb_cmd_ready(expl_axi_icb_cmd_ready),
-    .expl_axi_icb_cmd_addr (expl_axi_icb_cmd_addr),
-    .expl_axi_icb_cmd_read (expl_axi_icb_cmd_read),
-    .expl_axi_icb_cmd_wdata(expl_axi_icb_cmd_wdata),
-    .expl_axi_icb_cmd_wmask(expl_axi_icb_cmd_wmask),
+    .conv_ctrl_icb_cmd_valid(conv_ctrl_icb_cmd_valid),
+    .conv_ctrl_icb_cmd_ready(conv_ctrl_icb_cmd_ready),
+    .conv_ctrl_icb_cmd_addr (conv_ctrl_icb_cmd_addr),
+    .conv_ctrl_icb_cmd_read (conv_ctrl_icb_cmd_read),
+    .conv_ctrl_icb_cmd_wdata(conv_ctrl_icb_cmd_wdata),
+    .conv_ctrl_icb_cmd_wmask(conv_ctrl_icb_cmd_wmask),
 	// 少一个error
-    .expl_axi_icb_cmd_valid(expl_axi_icb_cmd_valid),
-    .expl_axi_icb_cmd_ready(expl_axi_icb_cmd_ready),
-    .expl_axi_icb_cmd_rdata(expl_axi_icb_cmd_rdata)
+    .conv_ctrl_icb_cmd_valid(conv_ctrl_icb_cmd_valid),
+    .conv_ctrl_icb_cmd_ready(conv_ctrl_icb_cmd_ready),
+    .conv_ctrl_icb_cmd_rdata(conv_ctrl_icb_cmd_rdata)
 
 );
 endmodule
