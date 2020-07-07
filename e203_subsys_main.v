@@ -19,7 +19,7 @@
 //=====================================================================
 //
 // Designer   : Bob Hu
-// Modified by zxy
+//
 // Description:
 //  The Subsystem-TOP module to implement CPU and some closely coupled devices
 //
@@ -1253,18 +1253,18 @@ e203_subsys_clint u_e203_subsys_clint(
   wire                     otp_ro_icb_rsp_valid;
   wire                     otp_ro_icb_rsp_ready;
   wire [32-1:0]            otp_ro_icb_rsp_rdata;
+  
+  //for conv
+  wire                      conv_icb_cmd_valid,
+  wire                      conv_icb_cmd_ready,
+  wire  [32-1:0]            conv_icb_cmd_addr, 
+  wire                      conv_icb_cmd_read, 
+  wire  [32-1:0]            conv_icb_cmd_wdata,
+  wire  [32/8-1:0]          conv_icb_cmd_wmask,      
 
-//zxy
-  wire cnn_icb_cmd_valid;
-  wire cnn_icb_cmd_ready;
-  wire [32-1:0] cnn_icb_cmd_addr;
-  wire cnn_icb_cmd_read;
-  wire [32-1:0] cnn_icb_cmd_wdata;
-  wire [3:0] cnn_icb_cmd_wmask;
-
-  wire cnn_icb_rsp_valid;
-  wire cnn_icb_rsp_ready;
-  wire [32-1:0]  cnn_icb_rsp_rdata;
+  wire                      conv_icb_rsp_valid,
+  wire                      conv_icb_rsp_ready,
+  wire  [32-1:0]            conv_icb_rsp_rdata,
 
   e203_subsys_perips u_e203_subsys_perips (
     .pllbypass   (pllbypass   ),
@@ -1289,19 +1289,16 @@ e203_subsys_clint u_e203_subsys_clint(
     .ppi_icb_rsp_err       (ppi_icb_rsp_err  ),
     .ppi_icb_rsp_rdata     (ppi_icb_rsp_rdata),
 
-    //zxy
-    .cnn_icb_cmd_valid (cnn_icb_cmd_valid),
-    .cnn_icb_cmd_ready (cnn_icb_cmd_ready),
-    .cnn_icb_cmd_addr  (cnn_icb_cmd_addr),
-    .cnn_icb_cmd_read  (cnn_icb_cmd_read),
-    .cnn_icb_cmd_wdata (cnn_icb_cmd_wdata),
-    .cnn_icb_cmd_wmask (cnn_icb_cmd_wmask),
-
-    .cnn_icb_rsp_valid (cnn_icb_rsp_valid),
-    .cnn_icb_rsp_ready (cnn_icb_rsp_ready),
-    .cnn_icb_rsp_rdata (cnn_icb_rsp_rdata),
-
-
+    //for conv
+    .conv_icb_cmd_valid    (conv_icb_cmd_valid),
+    .conv_icb_cmd_ready    (conv_icb_cmd_ready),
+    .conv_icb_cmd_addr     (conv_icb_cmd_addr ),
+    .conv_icb_cmd_read     (conv_icb_cmd_read ),
+    .conv_icb_cmd_wdata    (conv_icb_cmd_wdata),
+    .conv_icb_cmd_wmask    (conv_icb_cmd_wmask),
+    .conv_icb_rsp_valid    (conv_icb_rsp_valid),
+    .conv_icb_rsp_ready    (conv_icb_rsp_ready),
+    .conv_icb_rsp_rdata    (conv_icb_rsp_rdata),
 
     .sysper_icb_cmd_valid  (sysper_icb_cmd_valid),
     .sysper_icb_cmd_ready  (sysper_icb_cmd_ready),
@@ -1664,18 +1661,16 @@ e203_subsys_mems u_e203_subsys_mems(
     .mem_icb_rsp_err    (mem_icb_rsp_err  ),
     .mem_icb_rsp_rdata  (mem_icb_rsp_rdata),
 
-    //zxy
-    .cnn_icb_cmd_valid (cnn_icb_cmd_valid),
-    .cnn_icb_cmd_ready (cnn_icb_cmd_ready),
-    .cnn_icb_cmd_addr  (cnn_icb_cmd_addr),
-    .cnn_icb_cmd_read  (cnn_icb_cmd_read),
-    .cnn_icb_cmd_wdata (cnn_icb_cmd_wdata),
-    .cnn_icb_cmd_wmask (cnn_icb_cmd_wmask),
-
-    .cnn_icb_rsp_valid (cnn_icb_rsp_valid),
-    .cnn_icb_rsp_ready (cnn_icb_rsp_ready),
-    .cnn_icb_rsp_rdata (cnn_icb_rsp_rdata),
-
+    .conv_icb_cmd_valid    (conv_icb_cmd_valid),
+    .conv_icb_cmd_ready    (conv_icb_cmd_ready),
+    .conv_icb_cmd_addr     (conv_icb_cmd_addr ),
+    .conv_icb_cmd_read     (conv_icb_cmd_read ),
+    .conv_icb_cmd_wdata    (conv_icb_cmd_wdata),
+    .conv_icb_cmd_wmask    (conv_icb_cmd_wmask),
+    .conv_icb_rsp_valid    (conv_icb_rsp_valid),
+    .conv_icb_rsp_ready    (conv_icb_rsp_ready),
+    .conv_icb_rsp_rdata    (conv_icb_rsp_rdata),
+    
     .sysmem_icb_cmd_valid  (sysmem_icb_cmd_valid),
     .sysmem_icb_cmd_ready  (sysmem_icb_cmd_ready),
     .sysmem_icb_cmd_addr   (sysmem_icb_cmd_addr ),
