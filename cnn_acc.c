@@ -15,18 +15,9 @@ int main(void)
   int t=1;
   int m=0;
   int p=0;
-  while (t)
-{
-  p=p+1;
-  m=CNN_REG(1);
-  //printf("%d\n",m);
-  if(m==1)
-        {
-        CNN_REG(0)=0x00000000;
-        t=0;
-        printf("CNN finish!\n");
-        }
-}
+  printf("start conv");
+  
+  return 0;
 }
 
 

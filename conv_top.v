@@ -61,7 +61,7 @@ begin
     else if ((conv_ctrl_icb_cmd_valid & conv_ctrl_icb_cmd_ready & conv_ctrl_icb_cmd_read) && (conv_ctrl_icb_cmd_addr == `CONV_BASE_ADDR + `CONV_CTRL_ADDR))
         conv_ctrl_icb_rsp_rdata <= {24'h0,ctrl};
     else if ((conv_ctrl_icb_cmd_valid & conv_ctrl_icb_cmd_ready & conv_ctrl_icb_cmd_read) && (conv_ctrl_icb_cmd_addr == `CONV_BASE_ADDR + `CONV_STAT_ADDR))
-        conv_ctrl_icb_rsp_rdata <= {24'h,status};
+        conv_ctrl_icb_rsp_rdata <= {24'h0,status};
     else
         conv_ctrl_icb_rsp_rdata <= conv_ctrl_icb_rsp_rdata;
 end
@@ -97,3 +97,4 @@ conv conv_core(
     .start(start),
     .done(done)
 );
+endmodule

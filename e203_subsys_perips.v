@@ -87,16 +87,16 @@ module e203_subsys_perips(
   input                      otp_ro_icb_rsp_ready,
   output [32-1:0]            otp_ro_icb_rsp_rdata,
   // conv 相关的引脚设定，这是给mem的icb通道的主从
-  output                      conv_ro_icb_cmd_valid,
-  input                       conv_ro_icb_cmd_ready,
-  output  [32-1:0]            conv_ro_icb_cmd_addr, 
-  output                      conv_ro_icb_cmd_read, 
-  output  [32-1:0]            conv_ro_icb_cmd_wdata,
+  output                      conv_icb_cmd_valid,
+  input                       conv_icb_cmd_ready,
+  output  [32-1:0]            conv_icb_cmd_addr, 
+  output                      conv_icb_cmd_read, 
+  output  [32-1:0]            conv_icb_cmd_wdata,
   output  [32/8-1:0]          conv_icb_cmd_wmask,      //jxgg额外的一条信号线 作用未知
   /* 前面有类似的定义 output [`E203_XLEN/8-1:0]      sysper_icb_cmd_wmask  */
-  input                       conv_ro_icb_rsp_valid,
-  output                      conv_ro_icb_rsp_ready,
-  input [32-1:0]              conv_ro_icb_rsp_rdata,
+  input                       conv_icb_rsp_valid,
+  output                      conv_icb_rsp_ready,
+  input [32-1:0]              conv_icb_rsp_rdata,
   // 定义完了...应该吧
   //
   input  io_pads_gpio_0_i_ival,
@@ -1467,16 +1467,16 @@ module e203_subsys_perips(
   wire [32-1:0]            expl_axi_icb_rsp_rdata;
   wire                     expl_axi_icb_rsp_err;
   */
-  wire                     conv_ctrl_icb_cmd_valid,
-  wire                     conv_ctrl_icb_cmd_ready,
-  wire [32-1:0]            conv_ctrl_icb_cmd_addr,
-  wire                     conv_ctrl_icb_cmd_read,
-  wire [32-1:0]            conv_ctrl_icb_cmd_wdata,
-  wire [4-1:0]             conv_ctrl_icb_cmd_wmask,
+  wire                     conv_ctrl_icb_cmd_valid;
+  wire                     conv_ctrl_icb_cmd_ready;
+  wire [32-1:0]            conv_ctrl_icb_cmd_addr;
+  wire                     conv_ctrl_icb_cmd_read;
+  wire [32-1:0]            conv_ctrl_icb_cmd_wdata;
+  wire [4-1:0]             conv_ctrl_icb_cmd_wmask;
 
-  wire                     conv_ctrl_icb_rsp_valid,
-  wire                     conv_ctrl_icb_rsp_ready,
-  wire [32-1:0]            conv_ctrl_icb_rsp_rdata
+  wire                     conv_ctrl_icb_rsp_valid;
+  wire                     conv_ctrl_icb_rsp_ready;
+  wire [32-1:0]            conv_ctrl_icb_rsp_rdata;
   //
   wire                     expl_apb_icb_cmd_valid;
   wire                     expl_apb_icb_cmd_ready;
@@ -2623,9 +2623,9 @@ conv_top i_conv(
     .conv_ctrl_icb_cmd_wdata(conv_ctrl_icb_cmd_wdata),
     .conv_ctrl_icb_cmd_wmask(conv_ctrl_icb_cmd_wmask),
 	// 少一个error
-    .conv_ctrl_icb_cmd_valid(conv_ctrl_icb_cmd_valid),
-    .conv_ctrl_icb_cmd_ready(conv_ctrl_icb_cmd_ready),
-    .conv_ctrl_icb_cmd_rdata(conv_ctrl_icb_cmd_rdata)
+    .conv_ctrl_icb_rsp_valid(conv_ctrl_icb_rsp_valid),
+    .conv_ctrl_icb_rsp_ready(conv_ctrl_icb_rsp_ready),
+    .conv_ctrl_icb_rsp_rdata(conv_ctrl_icb_rsp_rdata)
 
 );
 endmodule

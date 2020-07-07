@@ -12,26 +12,33 @@ module tb_top();
   `define CPU_TOP u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_cpu_top
   `define EXU `CPU_TOP.u_e203_cpu.u_e203_core.u_e203_exu
   `define ITCM `CPU_TOP.u_e203_srams.u_e203_itcm_ram.u_e203_itcm_gnrl_ram.u_sirv_sim_ram
-  `define RAM u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_subsys_mems.u_sirv_ram_top_zxy.u_sirv_ram_zxy//zxy
-    //zxy  
+  //`define RAM u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_subsys_mems.u_sirv_ram_top_zxy.u_sirv_ram_zxy//zxy
+  `define WGT_RAM u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_subsys_mems.u_sirv_sim_ram1
+  `define INP_RAM u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_subsys_mems.u_sirv_sim_ram2
+  `define OUT_RAM u_e203_soc_top.u_e203_subsys_top.u_e203_subsys_main.u_e203_subsys_mems.u_sirv_sim_ram3
      integer i;
       initial begin
      // $readmemh({testcase, ".verilog"}, itcm_mem);
 
-      for (i=0;i<1153;i=i+4) begin
-          `RAM.mem_r[i][00+7:00] = 8'h01;
-          `RAM.mem_r[i][08+7:08] = 8'h02;
-          `RAM.mem_r[i][16+7:16] = 8'h03;
-          `RAM.mem_r[i][24+7:24] = 8'h04;
+      for (i=0;i<544;i=i+1) begin
+          `INP_RAM.mem_r[i][00+7:00] = 8'h01;
+          `INP_RAM.mem_r[i][08+7:08] = 8'h01;
+          `INP_RAM.mem_r[i][16+7:16] = 8'h01;
+          `INP_RAM.mem_r[i][24+7:24] = 8'h01;
       end
-      for (i=1156;i<1301;i=i+4) begin
-          `RAM.mem_r[i][00+7:00] = 8'h05;
-          `RAM.mem_r[i][08+7:08] = 8'h06;
-          `RAM.mem_r[i][16+7:16] = 8'h07;
-          `RAM.mem_r[i][24+7:24] = 8'h08;
+      for (i=0;i<48;i=i+1) begin
+          `WGT_RAM.mem_r[i][00+7:00] = 8'h01;
+          `WGT_RAM.mem_r[i][08+7:08] = 8'h01;
+          `WGT_RAM.mem_r[i][16+7:16] = 8'h01;
+          `WGT_RAM.mem_r[i][24+7:24] = 8'h00;
       end
+      for (i=0;i<4096;i=i+1)begin
+          `OUT_RAM.mem_r[i][00+7:00] = 8'h00;
+          `OUT_RAM.mem_r[i][08+7:08] = 8'h00;
+          `OUT_RAM.mem_r[i][16+7:16] = 8'h00;
+          `OUT_RAM.mem_r[i][24+7:24] = 8'h00;
     end 
-
+    end
   `define PC_WRITE_TOHOST       `E203_PC_SIZE'h80000086
   `define PC_EXT_IRQ_BEFOR_MRET `E203_PC_SIZE'h800000a6
   `define PC_SFT_IRQ_BEFOR_MRET `E203_PC_SIZE'h800000be

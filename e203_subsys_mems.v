@@ -132,29 +132,29 @@ module e203_subsys_mems(
   wire [2*1-1:0]                    arbt_bus_icb_rsp_usr;
 
   //仲裁输出信号定义，参考其他器件的输入定义
-  wire                         arbt_icb_cmd_valid,
-  wire                         arbt_icb_cmd_ready,
-  wire [`E203_ADDR_SIZE-1:0]   arbt_icb_cmd_addr, 
-  wire                         arbt_icb_cmd_read, 
-  wire [`E203_XLEN-1:0]        arbt_icb_cmd_wdata,
-  wire [`E203_XLEN/8-1:0]      arbt_icb_cmd_wmask,
+  wire                         arbt_icb_cmd_valid;
+  wire                         arbt_icb_cmd_ready;
+  wire [`E203_ADDR_SIZE-1:0]   arbt_icb_cmd_addr;
+  wire                         arbt_icb_cmd_read; 
+  wire [`E203_XLEN-1:0]        arbt_icb_cmd_wdata;
+  wire [`E203_XLEN/8-1:0]      arbt_icb_cmd_wmask;
   //
-  wire                         arbt_icb_rsp_valid,
-  wire                         arbt_icb_rsp_ready,
-  wire                         arbt_icb_rsp_err,
-  wire  [`E203_XLEN-1:0]       arbt_icb_rsp_rdata,
+  wire                         arbt_icb_rsp_valid;
+  wire                         arbt_icb_rsp_ready;
+  wire                         arbt_icb_rsp_err;
+  wire  [`E203_XLEN-1:0]       arbt_icb_rsp_rdata;
   //
   
   //将原本的mem线和现在conv线合并成arbt的输入
-  assign arbt_icb_cmd_valid = {conv_icb_cmd_valid,mem_icb_cmd_valid};
-  assign arbt_icb_cmd_addr  = {conv_icb_cmd_addr,mem_icb_cmd_addr};
-  assign arbt_icb_cmd_read  = {conv_icb_cmd_read,mem_icb_cmd_read};
-  assign arbt_icb_cmd_wdata = {conv_icb_cmd_wdata,mem_icb_cmd_wdata};
-  assign arbt_icb_cmd_wmask = {conv_icb_cmd_wmask,mem_icb_cmd_wmask};
-  assign arbt_icb_cmd_lock  = {1'b0,1'b0};
-  assign arbt_icb_cmd_burst = {2'b0,2'b0};
-  assign arbt_icb_cmd_beat  = {2'b0,2'b0};
-  assign arbt_icb_cmd_excl  = {1'b0,1'b0};
+  assign arbt_bus_icb_cmd_valid = {conv_icb_cmd_valid,mem_icb_cmd_valid};
+  assign arbt_bus_icb_cmd_addr  = {conv_icb_cmd_addr,mem_icb_cmd_addr};
+  assign arbt_bus_icb_cmd_read  = {conv_icb_cmd_read,mem_icb_cmd_read};
+  assign arbt_bus_icb_cmd_wdata = {conv_icb_cmd_wdata,mem_icb_cmd_wdata};
+  assign arbt_bus_icb_cmd_wmask = {conv_icb_cmd_wmask,mem_icb_cmd_wmask};
+  assign arbt_bus_icb_cmd_lock  = {1'b0,1'b0};
+  assign arbt_bus_icb_cmd_burst = {2'b0,2'b0};
+  assign arbt_bus_icb_cmd_beat  = {2'b0,2'b0};
+  assign arbt_bus_icb_cmd_excl  = {1'b0,1'b0};
   assign arbt_bus_icb_cmd_size = {2'b0,2'b0};
   assign arbt_bus_icb_rsp_ready = {conv_icb_rsp_ready,mem_icb_rsp_ready};
   assign arbt_bus_icb_cmd_usr = {1'b1,1'b0};
@@ -688,18 +688,18 @@ module e203_subsys_mems(
     .sram_ctrl_active(),
     .tcm_cgstop(1'b0),
     
-    .i_icb_cmd_valid(sram_wr_icb_cmd_valid),
-    .i_icb_cmd_ready(sram_wr_icb_cmd_ready),
-    .i_icb_cmd_read (sram_wr_icb_cmd_read),
-    .i_icb_cmd_addr (sram_wr_icb_cmd_addr[11:0]),
-    .i_icb_cmd_wdata(sram_wr_icb_cmd_wdata),
-    .i_icb_cmd_wmask(sram_wr_icb_cmd_wmask),
+    .i_icb_cmd_valid(sram_out_icb_cmd_valid),
+    .i_icb_cmd_ready(sram_out_icb_cmd_ready),
+    .i_icb_cmd_read (sram_out_icb_cmd_read),
+    .i_icb_cmd_addr (sram_out_icb_cmd_addr[11:0]),
+    .i_icb_cmd_wdata(sram_out_icb_cmd_wdata),
+    .i_icb_cmd_wmask(sram_out_icb_cmd_wmask),
     .i_icb_cmd_usr  (1'b0),
     
-    .i_icb_rsp_valid(sram_wr_icb_rsp_valid),
-    .i_icb_rsp_ready(sram_wr_icb_rsp_ready),
-    .i_icb_rsp_rdata(sram_wr_icb_rsp_rdata),
-    .i_icb_rsp_usr  (sram_wr_icb_rsp_err),
+    .i_icb_rsp_valid(sram_out_icb_rsp_valid),
+    .i_icb_rsp_ready(sram_out_icb_rsp_ready),
+    .i_icb_rsp_rdata(sram_out_icb_rsp_rdata),
+    .i_icb_rsp_usr  (sram_out_icb_rsp_err),
     
     .ram_cs  (ram3_cs),
     .ram_we  (ram3_we),
@@ -715,7 +715,7 @@ module e203_subsys_mems(
   );
   sirv_sim_ram #(
       .FORCE_X2ZERO (1'b0),
-      .DP (1024),
+      .DP (4096),
       .AW (10),
       .MW (4),
       .DW (32) 
