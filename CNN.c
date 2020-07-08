@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<time.h>
+//#include<time.h>
 #define N 1
 #define C 1
 #define H 32
@@ -13,11 +13,11 @@
 //x需要运算的矩阵
 //y卷积核
 //z
-char x[N][C][H][W];//需要运算矩阵 
-char y[I][O][KH][KW];//卷积核 
-short z[N][O][H][W];
+signed char x[N][C][H][W];//需要运算矩阵 
+signed char y[I][O][KH][KW];//卷积核 
+signed short z[N][O][H][W];
  
-void conv2(char x[N][C][H][W],char y[I][O][KH][KW],short z[N][O][H][W])
+void conv2(signed char x[N][C][H][W],signed char y[I][O][KH][KW],signed short z[N][O][H][W])
 {
     int i,j,o;
     int ki,kj;
@@ -33,6 +33,11 @@ void conv2(char x[N][C][H][W],char y[I][O][KH][KW],short z[N][O][H][W])
 						for(kj=0;kj<KW;kj++)
 							if (((kj + j - (KW-1)/2) >= 0) && (((kj + j - (KW-1)/2)) < W))
 								tmp += x[0][0][ki + i - (KH-1)/2][kj + j - (KW-1)/2] * y[0][o][ki][kj];
+				//relu				
+				if (tmp > 127)
+					tmp = 127;
+				else if (tmp < 0)
+					tmp = 0;			
 				z[0][o][i][j] = tmp;			
 			}			
 }
@@ -40,12 +45,8 @@ void conv2(char x[N][C][H][W],char y[I][O][KH][KW],short z[N][O][H][W])
  
 int main()
 {
-    char i;
-    i = -128;
-    printf("%d\n",i);
-    /*
 	int i,j,p,q;
-	srand(time(NULL));
+	srand(0);
 	printf("输入需要运算的矩阵：\n");
 	for(i=0;i<N;i++)
 	{
@@ -56,7 +57,9 @@ int main()
 				for(q=0;q<W;q++)
 				{
 					x[i][j][p][q] = rand()%256-128;
+					//printf("%d\t", x[i][j][p][q]);
 				}
+				//printf("\n");
 			}
 		}
 	}
@@ -97,5 +100,4 @@ int main()
 	}
 	
 	return 0;
-    */
  } 

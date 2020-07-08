@@ -1255,16 +1255,16 @@ e203_subsys_clint u_e203_subsys_clint(
   wire [32-1:0]            otp_ro_icb_rsp_rdata;
   
   //for conv
-  wire                      conv_icb_cmd_valid,
-  wire                      conv_icb_cmd_ready,
-  wire  [32-1:0]            conv_icb_cmd_addr, 
-  wire                      conv_icb_cmd_read, 
-  wire  [32-1:0]            conv_icb_cmd_wdata,
-  wire  [32/8-1:0]          conv_icb_cmd_wmask,      
+  wire                      conv_icb_cmd_valid;
+  wire                      conv_icb_cmd_ready;
+  wire  [32-1:0]            conv_icb_cmd_addr;
+  wire                      conv_icb_cmd_read; 
+  wire  [32-1:0]            conv_icb_cmd_wdata;
+  wire  [32/8-1:0]          conv_icb_cmd_wmask;      
 
-  wire                      conv_icb_rsp_valid,
-  wire                      conv_icb_rsp_ready,
-  wire  [32-1:0]            conv_icb_rsp_rdata,
+  wire                      conv_icb_rsp_valid;
+  wire                      conv_icb_rsp_ready;
+  wire  [32-1:0]            conv_icb_rsp_rdata;
 
   e203_subsys_perips u_e203_subsys_perips (
     .pllbypass   (pllbypass   ),
