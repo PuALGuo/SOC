@@ -326,7 +326,7 @@ reg [31:0] output_addr;
 assign conv_icb_cmd_addr = ((present == RWGT)?weight_addr:((present == RINP)?image_addr:((present == WOUT)? output_addr:32'h0))) & {32{conv_icb_cmd_valid}};
 //assign conv_icb_cmd_wdata = output_data;
 //assign conv_icb_cmd_wdata = {output_data[1],output_data[2],output_data[3],output_data[4]};
-assign conv_icb_cmd_wmask = 4'h0;
+assign conv_icb_cmd_wmask = 4'b1111;
 //weight //可能有问题
 always @(posedge clk or negedge rst_n)
 begin
