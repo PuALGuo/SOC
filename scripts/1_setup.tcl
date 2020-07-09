@@ -1,4 +1,4 @@
-set top "e203_soc_top"
+set top "cnn_top"
 set std_path "../ref"
 
 #set mem_lib "/home/lus/digital/complete_dc_scripts/libraries/lib "
@@ -11,8 +11,10 @@ set search_path [list $std_path/ ]
 
 #target library-----------------------------------------------------------
 #set     target_library          csmc13_ff_1p32v_-40c.db
-set     target_library          [list saed32rvt_ss0p95v125c.db sram_8kx32_ss_0p99v_0p99v_125c.db sram_4kx64_ss_0p99v_0p99v_125c.db]
-set     link_library            [list  "*" $target_library ]
+#set     target_library          [list saed32rvt_ss0p95v125c.db sram_8kx32_ss_0p99v_0p99v_125c.db sram_4kx64_ss_0p99v_0p99v_125c.db]
+#set     link_library            [list  "*" $target_library ]
+set     target_library          "saed32rvt_ss0p95v125c.db sram_8kx32_ss_0p99v_0p99v_125c.db sram_4kx64_ss_0p99v_0p99v_125c.db"
+set     link_library            "* $target_library"
 #set 	symbol_library      	{csmc13.sdb csmc13iov33.sdb}
 
 #define_name_rules BORG -type port -allowed "A-Z a-z 0-9" -first_restricted "_" \

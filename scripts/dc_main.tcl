@@ -39,7 +39,7 @@ group_path -name reg2out -from [all_registers -clock_pins] -to [all_outputs]
 group_path -name in2reg -from [remove_from_collection [all_inputs] $ports_clock_root] -to [all_registers -data_pins]
 group_path -name in2out -from [remove_from_collection [all_inputs] $ports_clock_root] -to [all_outputs]
 
-check_timing > ../log/check_timing.log
+#check_timing > ../log/check_timing.log
 compile
 
 source ../scripts/optimization.tcl
