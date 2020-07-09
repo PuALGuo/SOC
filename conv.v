@@ -118,19 +118,23 @@ begin
 end
 //流程计数
 //发送和接收应该是两回事情，一个负责控制发送的valid等信号，一个负责维护自身状态机
-reg [ 5:0] wgt_cmd_cnt; // 16*9/3=48 //每次读3个
-reg [ 5:0] wgt_rsp_cnt; // 16*9/3=48
-reg [ 9:0] inp_cmd_cnt; // 32/2*34=544
-reg [ 9:0] inp_rsp_cnt; // 32/2*34=544
+reg [ 1:0] wgt_cmd_cnt; // 16*9/3=48 //每次读3个
+reg [ 3:0] wgt_cmd_cct;
+reg [ 1:0] wgt_rsp_cnt; // 16*9/3=48
+reg [ 3:0] wgt_rsp_cct;
+reg [ 5:0] inp_cmd_cnt; // 32/2*34=544
+reg [ 3:0] inp_cmd_cct;
+reg [ 5:0] inp_rsp_cnt; // 32/2*34=544
+reg [ 3:0] inp_rsp_cct;
 reg [12:0] out_cmd_cnt; // 32*32*16/4=4096 // 前5位代表了当前的channal
 reg [12:0] out_rsp_cnt; // 32*32*16/4=4096
 //weight计数控制
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        wgt_cmd_cnt <= 6'b0;
-    else if (wgt_cmd_cnt == 6'd47 && conv_icb_cmd_rd)
-        wgt_cmd_cnt <= 6'b0;
+        wgt_cmd_cnt <= 2'b0;
+    else if (wgt_cmd_cnt == 2'b10 && conv_icb_cmd_rd)
+        wgt_cmd_cnt <= 2'b0;
     else if (present == RWGT && conv_icb_cmd_rd)
         wgt_cmd_cnt <= wgt_cmd_cnt + 1'b1;
     else
@@ -139,24 +143,42 @@ end
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        wgt_rsp_cnt <= 6'b0;
-    else if (wgt_rsp_cnt == 6'd47 && conv_icb_rsp)
-        wgt_rsp_cnt <= 6'b0;
+        wgt_cmd_cct <=  4'b0;
+    else if (wgt_cmd_cnt == 2'b10 && conv_icb_cmd_rd)
+        wgt_cmd_cct <= wgt_cmd_cct + 1'b1;
+    else
+        wgt_cmd_cct <= wgt_cmd_cct;
+end
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        wgt_rsp_cnt <= 2'b0;
+    else if (wgt_rsp_cnt == 2'b10 && conv_icb_rsp)
+        wgt_rsp_cnt <= 2'b0;
     else if (present == RWGT && conv_icb_rsp)
         wgt_rsp_cnt <= wgt_rsp_cnt + 1'b1;
     else
         wgt_rsp_cnt <= wgt_rsp_cnt;
 end
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        wgt_rsp_cct <=  4'b0;
+    else if (wgt_cmd_cnt == 2'b10 && conv_icb_rsp)
+        wgt_rsp_cct <= wgt_rsp_cct + 1'b1;
+    else
+        wgt_rsp_cct <= wgt_rsp_cct;
+end
 //read weight完成
-assign rwgt_cmd_done = (wgt_cmd_cnt % 3 == 2) && conv_icb_cmd_rd;
-assign rwgt_rsp_done = (wgt_rsp_cnt % 3 == 2) && conv_icb_rsp;
+assign rwgt_cmd_done = (wgt_cmd_cnt == 2) && conv_icb_cmd_rd;
+assign rwgt_rsp_done = (wgt_rsp_cnt == 2) && conv_icb_rsp;
 //input计数控制
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        inp_cmd_cnt <= 10'b0;
-    else if (inp_cmd_cnt == 10'd543 && conv_icb_cmd_rd) 
-        inp_cmd_cnt <= 10'b0;
+        inp_cmd_cnt <= 6'b0;
+    else if (inp_cmd_cnt == 6'd33 && conv_icb_cmd_rd) 
+        inp_cmd_cnt <= 6'b0;
     else if (present == RINP && conv_icb_cmd_rd)
         inp_cmd_cnt <= inp_cmd_cnt + 1;
     else
@@ -165,17 +187,35 @@ end
 always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
-        inp_rsp_cnt <= 10'b0;
-    else if (inp_rsp_cnt == 10'd543 && conv_icb_rsp)
-        inp_rsp_cnt <= 10'b0;
+        inp_cmd_cct <=  6'b0;
+    else if (inp_cmd_cnt == 6'd33 && conv_icb_cmd_rd)
+        inp_cmd_cct <= inp_cmd_cct + 1'b1;
+    else
+        inp_cmd_cct <= inp_cmd_cct;
+end
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        inp_rsp_cnt <= 6'b0;
+    else if (inp_rsp_cnt == 6'd34 && conv_icb_rsp)
+        inp_rsp_cnt <= 6'b0;
     else if (present == RINP && conv_icb_rsp)
         inp_rsp_cnt <= inp_rsp_cnt + 1;
     else
         inp_rsp_cnt <= inp_rsp_cnt; 
 end
+always @(posedge clk or negedge rst_n)
+begin
+    if (!rst_n)
+        inp_rsp_cct <=  4'b0;
+    else if (inp_rsp_cnt == 6'd33 && conv_icb_cmd_rd)
+        inp_rsp_cct <= inp_rsp_cct + 1'b1;
+    else
+        inp_rsp_cct <= inp_rsp_cct;
+end
 //read input完成
-assign rinp_cmd_done = (inp_cmd_cnt %34 == 33) && conv_icb_cmd_rd;
-assign rinp_rsp_done = (inp_rsp_cnt %34 == 33) && conv_icb_rsp;
+assign rinp_cmd_done = (inp_cmd_cnt == 33) && conv_icb_cmd_rd;
+assign rinp_rsp_done = (inp_rsp_cnt == 33) && conv_icb_rsp;
 //output计数控制
 always @(posedge clk or negedge rst_n)
 begin
@@ -272,21 +312,21 @@ always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
     begin
-	weight_slice[wgt_rsp_cnt % 3 + 1][1] <= 8'b0;
-	weight_slice[wgt_rsp_cnt % 3 + 1][2] <= 8'b0;
-	weight_slice[wgt_rsp_cnt % 3 + 1][3] <= 8'b0;
+	weight_slice[wgt_rsp_cnt + 1][1] <= 8'b0;
+	weight_slice[wgt_rsp_cnt + 1][2] <= 8'b0;
+	weight_slice[wgt_rsp_cnt + 1][3] <= 8'b0;
     end
     else if (present == RWGT && conv_icb_rsp)
     begin
-        weight_slice[wgt_rsp_cnt % 3 + 1][1] <= input_data[1];
-        weight_slice[wgt_rsp_cnt % 3 + 1][2] <= input_data[2];
-        weight_slice[wgt_rsp_cnt % 3 + 1][3] <= input_data[2];
+        weight_slice[wgt_rsp_cnt 3 + 1][1] <= input_data[1];
+        weight_slice[wgt_rsp_cnt 3 + 1][2] <= input_data[2];
+        weight_slice[wgt_rsp_cnt 3 + 1][3] <= input_data[2];
     end
     else
     begin
-        weight_slice[wgt_rsp_cnt % 3 + 1][1] <= weight_slice[wgt_rsp_cnt % 3 + 1][1];
-        weight_slice[wgt_rsp_cnt % 3 + 1][2] <= weight_slice[wgt_rsp_cnt % 3 + 1][2];
-        weight_slice[wgt_rsp_cnt % 3 + 1][3] <= weight_slice[wgt_rsp_cnt % 3 + 1][3];
+        weight_slice[wgt_rsp_cnt 3 + 1][1] <= weight_slice[wgt_rsp_cnt + 1][1];
+        weight_slice[wgt_rsp_cnt 3 + 1][2] <= weight_slice[wgt_rsp_cnt + 1][2];
+        weight_slice[wgt_rsp_cnt 3 + 1][3] <= weight_slice[wgt_rsp_cnt + 1][3];
     end
 end
 //////ICB
@@ -332,10 +372,10 @@ always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
         weight_addr <= 32'h0;
-    else if(start_rise && wgt_cmd_cnt == 6'h0)
+    else if(start_rise && wgt_cmd_cnt == 2'b0)
         weight_addr <= `WGT_ADDR;
     else if(present == RWGT && conv_icb_cmd_rd && ~rwgt_cmd_done)
-        weight_addr <= `WGT_ADDR + 32'h4 + {wgt_cmd_cnt,2'b0};
+        weight_addr <= `WGT_ADDR + 32'h4 + {wgt_cmd_cnt,2'b0} + {wgt_cmd_cct,3'b0} + {wgt_cmd_cct,2'b0};
     else 
         weight_addr <= weight_addr;
 end
@@ -344,10 +384,10 @@ always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
         image_addr <= 32'h0;
-    else if (rwgt_rsp_done && inp_cmd_cnt == 10'h0)
+    else if (rwgt_rsp_done && inp_cmd_cnt == 6'h0)
         image_addr <= `INP_ADDR;
     else if (present == RINP && conv_icb_cmd_rd && ~rinp_cmd_done) 
-        image_addr <= `INP_ADDR + 32'h4 + {inp_cmd_cnt,2'b0};
+        image_addr <= `INP_ADDR + 32'h4 + {inp_cmd_cnt,2'b0} + {inp_cmd_cct,7'b0} + {inp_cmd_cct,3'b0};
     else
         image_addr <= image_addr;
 end
@@ -369,19 +409,18 @@ always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
     begin
-        output_buffer[1][(inp_rsp_cnt - 2) % 34] <= 0;
-        output_buffer[2][(inp_rsp_cnt - 2) % 34] <= 0;
+        output_buffer[1][inp_rsp_cnt - 2] <= 0;
+        output_buffer[2][inp_rsp_cnt - 2] <= 0;
     end
-    //else if (present == RINP && (inp_rsp_cnt % 34 != 2) && (inp_rsp_cnt % 34 != 1) && conv_icb_rsp)
-    else if (present == RINP && (inp_rsp_cnt % 34 != 2) && (inp_rsp_cnt % 34 != 1))
+    else if (present == RINP && (inp_rsp_cnt != 2) && (inp_rsp_cnt != 1))
     begin
-        output_buffer[1][(inp_rsp_cnt - 2) % 34] <= output_slice[1] + output_slice[2] + output_slice[3];
-        output_buffer[2][(inp_rsp_cnt - 2) % 34] <= output_slice[4] + output_slice[5] + output_slice[6];
+        output_buffer[1][inp_rsp_cnt - 2] <= output_slice[1] + output_slice[2] + output_slice[3];
+        output_buffer[2][inp_rsp_cnt - 2] <= output_slice[4] + output_slice[5] + output_slice[6];
     end
     else
     begin
-        output_buffer[1][(inp_rsp_cnt - 2) % 34] <= output_buffer[1][(inp_rsp_cnt - 2) % 34 + 1];
-        output_buffer[2][(inp_rsp_cnt - 2) % 34] <= output_buffer[2][(inp_rsp_cnt - 2) % 34 + 1];
+        output_buffer[1][inp_rsp_cnt - 2] <= output_buffer[1][(inp_rsp_cnt - 1];
+        output_buffer[2][inp_rsp_cnt - 2] <= output_buffer[2][(inp_rsp_cnt - 1];
     end
 end
 //output输出
