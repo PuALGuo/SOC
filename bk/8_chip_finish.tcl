@@ -1,4 +1,4 @@
-source ../scripts/ant.tcl
+source ../scripts/bk/ant.tcl
 set_route_zrt_detail_options -insert_diodes_during_routing true
 route_zrt_detail -increment true
 
