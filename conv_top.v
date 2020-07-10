@@ -40,7 +40,7 @@ wire start;
 assign start = ctrl[0];
 //status状态记录
 //[0:0] done [] 其他位置还没想好
-reg [7:0] status;
+wire [7:0] status;
 wire done;
 assign status = {7'b0,done};
 //写
