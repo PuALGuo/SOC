@@ -2,8 +2,8 @@ source ../scripts/bk/ant.tcl
 set_route_zrt_detail_options -insert_diodes_during_routing true
 route_zrt_detail -increment true
 
-derive_pg_connection -power_net VDD -power_pin VDD -ground_net GND -ground_pin GND
-derive_pg_connection -power_net VDD -ground_net GND -tie
+derive_pg_connection -power_net VDD -power_pin VDD -ground_net VSS -ground_pin VSS
+derive_pg_connection -power_net VDD -ground_net VSS -tie
 check_mv_design -power_nets
 
 #report_critical_area -fault_type short
@@ -14,8 +14,8 @@ check_mv_design -power_nets
 #widen_zrt_wires
 #report_critical_area -fault_type open
 
-insert_stdcell_filler -cell_without_metal {FILLER1HD FILLER2HD FILLER4HD FILLER6HD FILLER8HD} \
-                -connect_to_power VDD -connect_to_ground GND
+#insert_stdcell_filler -cell_without_metal {FILLER1HD FILLER2HD FILLER4HD FILLER6HD FILLER8HD} \
+                #-connect_to_power VDD -connect_to_ground VSS
 
 
 #report_design_physical -route
@@ -24,8 +24,8 @@ insert_stdcell_filler -cell_without_metal {FILLER1HD FILLER2HD FILLER4HD FILLER6
 #report_design_physical -route
 #
 #route_opt -incremental
-derive_pg_connection -power_net VDD -power_pin VDD -ground_net GND -ground_pin GND
-derive_pg_connection -power_net VDD -ground_net GND -tie
+derive_pg_connection -power_net VDD -power_pin VDD -ground_net VSS -ground_pin VSS
+derive_pg_connection -power_net VDD -ground_net VSS -tie
 #check_mv_design -power_nets
 
 route_zrt_eco

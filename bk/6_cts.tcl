@@ -18,8 +18,8 @@ extract_rc
 clock_opt -no_clock_route -only_psyn -area_recovery
 optimize_clock_tree
 set_propagated_clock [all_clocks]
-derive_pg_connection -power_net VDD -power_pin VDD -ground_net GND -ground_pin GND
-derive_pg_connection -power_net VDD -ground_net GND -tie
+derive_pg_connection -power_net VDD -power_pin VDD -ground_net VSS -ground_pin VSS
+derive_pg_connection -power_net VDD -ground_net VSS -tie
 check_mv_design -power_nets
 
 save_mw_cel -as 6_cts

@@ -62,7 +62,7 @@ create_mw_lib  -technology  $tech_file_path/saed32nm_1p9m_mw.tf     \
                -hier_separator {/} \
                -bus_naming_style {[%d]} \
                -open  ../design_data/e203_soc_top.mw
-
+               #-open  ../design_data/conv_top.mw
 #/home/jfjiang/lib/smic_130nm/SP013D3_V1p6/apollo/SP013D3_V1p6_6MT
 
 set_check_library_options -all
@@ -82,6 +82,7 @@ list_libs
 #import designs
 #import_designs -format verilog /home/jiangjf/ip_test/backend/dc/mapped/e203_soc_top_pad.v
 import_designs -format verilog $home_path/dc/mapped/e203_soc_top.mapped.v
+#import_designs -format verilog $home_path/dc/mapped/conv_top.mapped.v
 
 #derive_pg_connection -power_net VDD -power_pin VDD -ground_net GND -ground_pin GND
 #derive_pg_connection -power_net VDDH -power_pin VDDH -ground_net VSSH -ground_pin VSSH
@@ -95,6 +96,7 @@ check_mv_design -power_nets
 
 #read_sdc /home/jiangjf/ip_test/backend/dc/mapped/e203_soc_top_pad.sdc
 read_sdc $home_path/dc/mapped/e203_soc_top.sdc
+#read_sdc $home_path/dc/mapped/conv_top.sdc
 
 check_timing
 report_timing_requirements

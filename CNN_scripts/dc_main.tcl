@@ -5,7 +5,6 @@
 #main control scripts
 #set hdlin_preserve_sequential true
 #set compile_delete_unloaded_sequential_cells false 
-set hdlin_while_loop_iterations 2048
 set_host_options -max_cores 4
 #set_units -capacitance pf
 #set_units -time ns
