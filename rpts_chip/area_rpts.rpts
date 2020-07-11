@@ -1,0 +1,32 @@
+ 
+****************************************
+Report : area
+Design : e203_soc_top
+Version: H-2013.03-SP2
+Date   : Sat Jul 11 15:22:32 2020
+****************************************
+
+Library(s) Used:
+
+    saed32rvt_ss0p95v125c (File: /home/riscv/Desktop/DC+ICC/dc/ref/saed32rvt_ss0p95v125c.db)
+    sram_8kx32_ss_0p99v_0p99v_125c (File: /home/riscv/Desktop/DC+ICC/dc/ref/sram_8kx32_ss_0p99v_0p99v_125c.db)
+    sram_4kx64_ss_0p99v_0p99v_125c (File: /home/riscv/Desktop/DC+ICC/dc/ref/sram_4kx64_ss_0p99v_0p99v_125c.db)
+
+Number of ports:                          235
+Number of nets:                           298
+Number of cells:                           42
+Number of combinational cells:             41
+Number of sequential cells:                 0
+Number of macros/black boxes:               0
+Number of buf/inv:                          5
+Number of references:                       4
+
+Combinational area:             131933.268260
+Buf/Inv area:                    60930.516947
+Noncombinational area:           49486.920850
+Macro/Black Box area:           531603.492188
+Net Interconnect area:           57420.038649
+
+Total cell area:                713023.681297
+Total area:                     770443.719946
+1

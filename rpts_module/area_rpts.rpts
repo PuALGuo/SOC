@@ -1,0 +1,30 @@
+ 
+****************************************
+Report : area
+Design : conv_top
+Version: H-2013.03-SP2
+Date   : Thu Jul  9 15:01:13 2020
+****************************************
+
+Library(s) Used:
+
+    saed32rvt_ss0p95v125c (File: /home/riscv/Desktop/DC+ICC/dc/ref/saed32rvt_ss0p95v125c.db)
+
+Number of ports:                          212
+Number of nets:                           320
+Number of cells:                          168
+Number of combinational cells:            126
+Number of sequential cells:                41
+Number of macros/black boxes:               0
+Number of buf/inv:                         69
+Number of references:                      19
+
+Combinational area:              15447.888966
+Buf/Inv area:                     5703.245600
+Noncombinational area:            6440.009072
+Macro/Black Box area:                0.000000
+Net Interconnect area:            5044.208690
+
+Total cell area:                 21887.898038
+Total area:                      26932.106728
+1

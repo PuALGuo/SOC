@@ -1,0 +1,681 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'e203_soc_top' contains 3 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : e203_soc_top
+Version: H-2013.03-SP2
+Date   : Sat Jul 11 15:22:32 2020
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: ss0p95v125c   Library: saed32rvt_ss0p95v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_lo_ir_dfflr/qout_r_reg[0]
+              (rising edge-triggered flip-flop clocked by hfextclk)
+  Endpoint: u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/u_itcm_clkgate/enb_reg
+            (positive level-sensitive latch clocked by hfextclk')
+  Path Group: hfextclk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  e203_cpu_MASTER1   70000                 saed32rvt_ss0p95v125c
+  e203_core          70000                 saed32rvt_ss0p95v125c
+  e203_exu_decode_0  8000                  saed32rvt_ss0p95v125c
+  e203_exu           70000                 saed32rvt_ss0p95v125c
+  e203_exu_alu       16000                 saed32rvt_ss0p95v125c
+  e203_exu_alu_muldiv
+                     8000                  saed32rvt_ss0p95v125c
+  e203_exu_alu_dpath 8000                  saed32rvt_ss0p95v125c
+  e203_exu_alu_dpath_DW01_add_0
+                     ForQA                 saed32rvt_ss0p95v125c
+  e203_exu_alu_lsuagu
+                     8000                  saed32rvt_ss0p95v125c
+  e203_exu_excp      8000                  saed32rvt_ss0p95v125c
+  e203_exu_commit    8000                  saed32rvt_ss0p95v125c
+  e203_ifu_ifetch    8000                  saed32rvt_ss0p95v125c
+  e203_ifu           8000                  saed32rvt_ss0p95v125c
+  e203_ifu_ift2icb   8000                  saed32rvt_ss0p95v125c
+  e203_itcm_ctrl     8000                  saed32rvt_ss0p95v125c
+  sirv_gnrl_bypbuf_DP1_DW91
+                     8000                  saed32rvt_ss0p95v125c
+  sirv_sram_icb_ctrl_DW64_MW8_AW16_AW_LSB3_USR_W2
+                     8000                  saed32rvt_ss0p95v125c
+  e203_clk_ctrl      ForQA                 saed32rvt_ss0p95v125c
+  e203_clkgate_7     ForQA                 saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock hfextclk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_lo_ir_dfflr/qout_r_reg[0]/CLK (DFFARX1_RVT)
+                                                          0.00       0.00 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_lo_ir_dfflr/qout_r_reg[0]/Q (DFFARX1_RVT)
+                                                          0.25       0.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_lo_ir_dfflr/qout[0] (sirv_gnrl_dfflr_DW16_1)
+                                                          0.00       0.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_o_ir[0] (e203_ifu_ifetch)
+                                                          0.00       0.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/ifu_o_ir[0] (e203_ifu)
+                                                          0.00       0.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/i_ir[0] (e203_exu)
+                                                          0.00       0.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/i_instr[0] (e203_exu_decode_0)
+                                                          0.00       0.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U495/Y (AND2X1_RVT)
+                                                          0.07       0.33 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U494/Y (AND3X1_RVT)
+                                                          0.07       0.40 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U493/Y (AND2X1_RVT)
+                                                          0.05       0.45 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U492/Y (AND2X1_RVT)
+                                                          0.06       0.51 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U489/Y (NAND2X0_RVT)
+                                                          0.05       0.56 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U27/Y (INVX1_RVT)
+                                                          0.04       0.59 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U331/Y (AND3X1_RVT)
+                                                          0.06       0.66 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U318/Y (NAND4X0_RVT)
+                                                          0.07       0.72 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U316/Y (AND3X1_RVT)
+                                                          0.08       0.81 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U315/Y (NAND4X0_RVT)
+                                                          0.04       0.85 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U311/Y (AND4X1_RVT)
+                                                          0.08       0.93 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U310/Y (NAND4X0_RVT)
+                                                          0.11       1.04 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U40/Y (INVX1_RVT)
+                                                          0.06       1.10 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U309/Y (OR3X1_RVT)
+                                                          0.09       1.19 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/U31/Y (INVX1_RVT)
+                                                          0.02       1.21 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_decode/dec_ilegl (e203_exu_decode_0)
+                                                          0.00       1.21 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_disp/disp_i_ilegl (e203_exu_disp)
+                                                          0.00       1.21 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_disp/U109/Y (NBUFFX2_RVT)
+                                                          0.04       1.25 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_disp/disp_o_alu_ilegl (e203_exu_disp)
+                                                          0.00       1.25 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/i_ilegl (e203_exu_alu)
+                                                          0.00       1.25 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U717/Y (OR3X1_RVT)
+                                                          0.09       1.34 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U756/Y (INVX1_RVT)
+                                                          0.02       1.36 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U714/Y (AND4X1_RVT)
+                                                          0.10       1.46 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U748/Y (NBUFFX4_RVT)
+                                                          0.08       1.54 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U77/Y (AND2X1_RVT)
+                                                          0.06       1.60 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/muldiv_i_info[9] (e203_exu_alu_muldiv)
+                                                          0.00       1.60 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U143/Y (INVX1_RVT)
+                                                          0.02       1.62 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U746/Y (NAND2X0_RVT)
+                                                          0.06       1.68 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U71/Y (OR2X1_RVT)
+                                                          0.10       1.77 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U734/Y (OA21X1_RVT)
+                                                          0.08       1.85 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U733/Y (NAND2X0_RVT)
+                                                          0.05       1.90 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U728/Y (OAI222X1_RVT)
+                                                          0.15       2.05 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/U727/Y (AO221X1_RVT)
+                                                          0.07       2.12 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_muldiv/muldiv_req_alu_sub (e203_exu_alu_muldiv)
+                                                          0.00       2.12 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/muldiv_req_alu_sub (e203_exu_alu_dpath)
+                                                          0.00       2.12 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U699/Y (AO22X1_RVT)
+                                                          0.12       2.23 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U697/Y (AO221X1_RVT)
+                                                          0.11       2.34 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U696/Y (AND2X1_RVT)
+                                                          0.06       2.41 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U725/Y (NBUFFX2_RVT)
+                                                          0.06       2.47 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U624/Y (AND2X1_RVT)
+                                                          0.06       2.53 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U12/Y (NBUFFX2_RVT)
+                                                          0.06       2.59 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U620/Y (AO221X1_RVT)
+                                                          0.10       2.69 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/B[0] (e203_exu_alu_dpath_DW01_add_0)
+                                                          0.00       2.69 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_0/CO (FADDX1_RVT)
+                                                          0.10       2.79 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_1/CO (FADDX1_RVT)
+                                                          0.10       2.89 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_2/CO (FADDX1_RVT)
+                                                          0.10       2.98 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_3/CO (FADDX1_RVT)
+                                                          0.10       3.08 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_4/CO (FADDX1_RVT)
+                                                          0.10       3.18 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_5/CO (FADDX1_RVT)
+                                                          0.10       3.28 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_6/CO (FADDX1_RVT)
+                                                          0.10       3.37 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_7/CO (FADDX1_RVT)
+                                                          0.10       3.47 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_8/CO (FADDX1_RVT)
+                                                          0.10       3.57 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_9/CO (FADDX1_RVT)
+                                                          0.10       3.66 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_10/CO (FADDX1_RVT)
+                                                          0.10       3.76 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_11/CO (FADDX1_RVT)
+                                                          0.10       3.86 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_12/CO (FADDX1_RVT)
+                                                          0.10       3.96 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_13/CO (FADDX1_RVT)
+                                                          0.10       4.05 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_14/CO (FADDX1_RVT)
+                                                          0.10       4.15 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_15/CO (FADDX1_RVT)
+                                                          0.10       4.25 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_16/CO (FADDX1_RVT)
+                                                          0.10       4.34 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_17/CO (FADDX1_RVT)
+                                                          0.10       4.44 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_18/CO (FADDX1_RVT)
+                                                          0.10       4.54 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_19/CO (FADDX1_RVT)
+                                                          0.10       4.64 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_20/CO (FADDX1_RVT)
+                                                          0.10       4.73 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_21/CO (FADDX1_RVT)
+                                                          0.10       4.83 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_22/CO (FADDX1_RVT)
+                                                          0.10       4.93 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_23/CO (FADDX1_RVT)
+                                                          0.10       5.02 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_24/CO (FADDX1_RVT)
+                                                          0.10       5.12 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_25/CO (FADDX1_RVT)
+                                                          0.10       5.22 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_26/CO (FADDX1_RVT)
+                                                          0.10       5.32 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_27/CO (FADDX1_RVT)
+                                                          0.10       5.41 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_28/CO (FADDX1_RVT)
+                                                          0.10       5.51 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_29/CO (FADDX1_RVT)
+                                                          0.10       5.61 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_30/CO (FADDX1_RVT)
+                                                          0.10       5.70 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_31/CO (FADDX1_RVT)
+                                                          0.10       5.80 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/U1_32/S (FADDX1_RVT)
+                                                          0.17       5.97 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/add_1_root_add_288_2/SUM[32] (e203_exu_alu_dpath_DW01_add_0)
+                                                          0.00       5.97 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U921/Y (INVX2_RVT)
+                                                          0.03       6.00 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U506/Y (OA22X1_RVT)
+                                                          0.08       6.09 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U915/Y (NBUFFX8_RVT)
+                                                          0.05       6.14 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U496/Y (AO21X1_RVT)
+                                                          0.08       6.22 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U115/Y (NBUFFX2_RVT)
+                                                          0.06       6.28 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U425/Y (AO22X1_RVT)
+                                                          0.06       6.34 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/U420/Y (OR3X1_RVT)
+                                                          0.09       6.44 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_dpath/agu_req_alu_res[1] (e203_exu_alu_dpath)
+                                                          0.00       6.44 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/agu_req_alu_res[1] (e203_exu_alu_lsuagu)
+                                                          0.00       6.44 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U263/Y (AO22X1_RVT)
+                                                          0.08       6.52 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U262/Y (AO22X1_RVT)
+                                                          0.07       6.58 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U390/Y (INVX1_RVT)
+                                                          0.02       6.60 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U261/Y (NAND2X0_RVT)
+                                                          0.05       6.65 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U437/Y (INVX1_RVT)
+                                                          0.03       6.68 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U5/Y (NBUFFX2_RVT)
+                                                          0.06       6.75 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U193/Y (NAND2X0_RVT)
+                                                          0.05       6.80 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/U185/Y (NAND2X0_RVT)
+                                                          0.04       6.84 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/u_e203_exu_alu_lsuagu/agu_o_wbck_err (e203_exu_alu_lsuagu)
+                                                          0.00       6.84 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U528/Y (AO222X1_RVT)
+                                                          0.06       6.89 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U527/Y (NOR3X0_RVT)
+                                                          0.08       6.97 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U525/Y (NAND4X0_RVT)
+                                                          0.06       7.04 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/U181/Y (AND2X1_RVT)
+                                                          0.08       7.11 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_alu/cmt_o_valid (e203_exu_alu)
+                                                          0.00       7.11 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/alu_cmt_i_valid (e203_exu_commit)
+                                                          0.00       7.11 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/alu_excp_i_valid (e203_exu_excp)
+                                                          0.00       7.11 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U260/Y (NAND2X0_RVT)
+                                                          0.05       7.17 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U256/Y (NAND3X0_RVT)
+                                                          0.07       7.24 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U255/Y (AO21X1_RVT)
+                                                          0.09       7.33 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U254/Y (NAND3X0_RVT)
+                                                          0.04       7.36 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U253/Y (NAND2X0_RVT)
+                                                          0.06       7.42 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U251/Y (NAND4X0_RVT)
+                                                          0.07       7.49 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U170/Y (NAND2X0_RVT)
+                                                          0.06       7.55 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U377/Y (INVX1_RVT)
+                                                          0.04       7.58 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/U169/Y (NAND3X0_RVT)
+                                                          0.06       7.64 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/u_e203_exu_excp/excpirq_flush_req (e203_exu_excp)
+                                                          0.00       7.64 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/U2/Y (INVX1_RVT)
+                                                          0.07       7.71 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/U101/Y (NAND2X0_RVT)
+                                                          0.05       7.76 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/u_e203_exu_commit/pipe_flush_req (e203_exu_commit)
+                                                          0.00       7.76 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_exu/pipe_flush_req (e203_exu)
+                                                          0.00       7.76 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/pipe_flush_req (e203_ifu)
+                                                          0.00       7.76 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/pipe_flush_req (e203_ifu_ifetch)
+                                                          0.00       7.76 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U20/Y (INVX1_RVT)
+                                                          0.05       7.81 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U21/Y (INVX1_RVT)
+                                                          0.05       7.87 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U253/Y (OR2X1_RVT)
+                                                          0.08       7.95 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U252/Y (INVX0_RVT)
+                                                          0.03       7.98 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U30/Y (NBUFFX2_RVT)
+                                                          0.06       8.04 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U166/Y (AO222X1_RVT)
+                                                          0.14       8.19 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_req_pc[31] (e203_ifu_ifetch)
+                                                          0.00       8.19 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/ifu_req_pc[31] (e203_ifu_ift2icb)
+                                                          0.00       8.19 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U240/Y (XNOR2X1_RVT)
+                                                          0.12       8.31 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U245/Y (NAND4X0_RVT)
+                                                          0.06       8.37 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U261/Y (NOR4X0_RVT)
+                                                          0.14       8.51 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U116/Y (INVX1_RVT)
+                                                          0.02       8.53 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U187/Y (OA21X1_RVT)
+                                                          0.08       8.60 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U115/Y (INVX1_RVT)
+                                                          0.02       8.63 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U174/Y (OR3X1_RVT)
+                                                          0.06       8.69 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U173/Y (NAND2X0_RVT)
+                                                          0.07       8.76 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U18/Y (INVX2_RVT)
+                                                          0.06       8.82 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U20/Y (INVX1_RVT)
+                                                          0.06       8.88 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U172/Y (AO22X1_RVT)
+                                                          0.07       8.96 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U142/Y (INVX1_RVT)
+                                                          0.03       8.98 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U264/Y (OR2X1_RVT)
+                                                          0.06       9.04 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U265/Y (AO22X1_RVT)
+                                                          0.08       9.12 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U268/Y (NAND4X0_RVT)
+                                                          0.06       9.18 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U284/Y (NOR4X0_RVT)
+                                                          0.15       9.32 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U22/Y (INVX1_RVT)
+                                                          0.03       9.35 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U197/Y (AO22X1_RVT)
+                                                          0.06       9.42 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U191/Y (AND2X1_RVT)
+                                                          0.06       9.48 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/ifu_req_ready (e203_ifu_ift2icb)
+                                                          0.00       9.48 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_req_ready (e203_ifu_ifetch)
+                                                          0.00       9.48 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U247/Y (NAND3X0_RVT)
+                                                          0.03       9.51 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U246/Y (NAND2X0_RVT)
+                                                          0.05       9.56 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U245/Y (NAND2X0_RVT)
+                                                          0.06       9.62 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U241/Y (INVX0_RVT)
+                                                          0.03       9.65 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/U236/Y (OA22X1_RVT)
+                                                          0.09       9.74 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ifetch/ifu_req_valid (e203_ifu_ifetch)
+                                                          0.00       9.74 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/ifu_req_valid (e203_ifu_ift2icb)
+                                                          0.00       9.74 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U183/Y (NAND3X0_RVT)
+                                                          0.04       9.78 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U182/Y (NAND3X0_RVT)
+                                                          0.07       9.85 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/U139/Y (AND2X1_RVT)
+                                                          0.07       9.92 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/u_e203_ifu_ift2icb/ifu2itcm_icb_cmd_valid (e203_ifu_ift2icb)
+                                                          0.00       9.92 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/u_e203_ifu/ifu2itcm_icb_cmd_valid (e203_ifu)
+                                                          0.00       9.92 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_core/ifu2itcm_icb_cmd_valid (e203_core)
+                                                          0.00       9.92 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/ifu2itcm_icb_cmd_valid (e203_itcm_ctrl)
+                                                          0.00       9.92 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/U99/Y (NAND2X0_RVT)
+                                                          0.04       9.96 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/U80/Y (NAND2X0_RVT)
+                                                          0.05      10.01 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/i_icb_cmd_valid (sirv_sram_icb_ctrl_DW64_MW8_AW16_AW_LSB3_USR_W2)
+                                                          0.00      10.01 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_byp_icb_cmd_buf/i_vld (sirv_gnrl_bypbuf_DP1_DW91)
+                                                          0.00      10.01 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_byp_icb_cmd_buf/U160/Y (INVX1_RVT)
+                                                          0.03      10.05 r
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_byp_icb_cmd_buf/U3/Y (NAND2X0_RVT)
+                                                          0.06      10.10 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_byp_icb_cmd_buf/o_vld (sirv_gnrl_bypbuf_DP1_DW91)
+                                                          0.00      10.10 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_sirv_1cyc_sram_ctrl/uop_cmd_valid (sirv_1cyc_sram_ctrl_DW64_MW8_AW16_AW_LSB3_USR_W2)
+                                                          0.00      10.10 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_sirv_1cyc_sram_ctrl/U2/Y (OR2X1_RVT)
+                                                          0.08      10.18 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/u_sirv_1cyc_sram_ctrl/sram_ctrl_active (sirv_1cyc_sram_ctrl_DW64_MW8_AW16_AW_LSB3_USR_W2)
+                                                          0.00      10.18 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/U1/Y (OR4X1_RVT)
+                                                          0.12      10.30 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/u_sram_icb_ctrl/sram_ctrl_active (sirv_sram_icb_ctrl_DW64_MW8_AW16_AW_LSB3_USR_W2)
+                                                          0.00      10.30 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/U119/Y (OR4X1_RVT)
+                                                          0.11      10.41 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_itcm_ctrl/itcm_active (e203_itcm_ctrl)
+                                                          0.00      10.41 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/itcm_active (e203_clk_ctrl)
+                                                          0.00      10.41 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/U5/Y (OR3X1_RVT)
+                                                          0.08      10.48 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/u_itcm_clkgate/clock_en (e203_clkgate_7)
+                                                          0.00      10.48 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/u_itcm_clkgate/U4/Y (OR2X1_RVT)
+                                                          0.06      10.54 f
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/u_itcm_clkgate/enb_reg/D (LATCHX1_RVT)
+                                                          0.00      10.54 f
+  data arrival time                                                 10.54
+
+  clock hfextclk' (rise edge)                            10.00      10.00
+  clock network delay (ideal)                             0.00      10.00
+  clock uncertainty                                      -0.50       9.50
+  u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/u_itcm_clkgate/enb_reg/CLK (LATCHX1_RVT)
+                                                          0.00       9.50 r
+  time borrowed from endpoint                             1.04      10.54
+  data required time                                                10.54
+  --------------------------------------------------------------------------
+  data required time                                                10.54
+  data arrival time                                                -10.54
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+  Time Borrowing Information
+  --------------------------------------------------------------
+  hfextclk' pulse width                                  10.00   
+  library setup time                                     -0.06   
+  --------------------------------------------------------------
+  max time borrow                                         9.94   
+  --------------------------------------------------------------
+  actual time borrow                                      1.04   
+  clock uncertainty                                      -0.50   
+  --------------------------------------------------------------
+  time given to startpoint                                0.54   
+  --------------------------------------------------------------
+
+
+  Startpoint: io_pads_dbgmode2_n_i_ival
+              (input port clocked by lfextclk)
+  Endpoint: io_pads_gpio_1_o_oval
+            (output port clocked by lfextclk)
+  Path Group: in2out
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  e203_soc_top       1000000               saed32rvt_ss0p95v125c
+  sirv_aon_wrapper   35000                 saed32rvt_ss0p95v125c
+  e203_subsys_top    1000000               saed32rvt_ss0p95v125c
+  e203_subsys_main   1000000               saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock lfextclk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.50       0.50 f
+  io_pads_dbgmode2_n_i_ival (in)                          0.10       0.60 f
+  u_e203_subsys_top/io_pads_dbgmode2_n_i_ival (e203_subsys_top)
+                                                          0.00       0.60 f
+  u_e203_subsys_top/u_sirv_aon_top/io_pads_dbgmode2_n_i_ival (sirv_aon_top)
+                                                          0.00       0.60 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/io_pads_dbgmode2_n_i_ival (sirv_aon_wrapper)
+                                                          0.00       0.60 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/U22/Y (OR3X1_RVT)
+                                                          0.12       0.72 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/U136/Y (INVX1_RVT)
+                                                          0.05       0.77 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/inspect_mode (sirv_aon_wrapper)
+                                                          0.00       0.77 r
+  u_e203_subsys_top/u_sirv_aon_top/inspect_mode (sirv_aon_top)
+                                                          0.00       0.77 r
+  u_e203_subsys_top/u_e203_subsys_main/inspect_mode (e203_subsys_main)
+                                                          0.00       0.77 r
+  u_e203_subsys_top/u_e203_subsys_main/U4/Y (INVX1_RVT)
+                                                          0.07       0.83 f
+  u_e203_subsys_top/u_e203_subsys_main/U166/Y (INVX1_RVT)
+                                                          0.07       0.90 r
+  u_e203_subsys_top/u_e203_subsys_main/U106/Y (AO22X1_RVT)
+                                                          0.09       0.99 r
+  u_e203_subsys_top/u_e203_subsys_main/io_pads_gpio_1_o_oval (e203_subsys_main)
+                                                          0.00       0.99 r
+  u_e203_subsys_top/io_pads_gpio_1_o_oval (e203_subsys_top)
+                                                          0.00       0.99 r
+  io_pads_gpio_1_o_oval (out)                             0.00       0.99 r
+  data arrival time                                                  0.99
+
+  clock lfextclk (rise edge)                          30517.58   30517.58
+  clock network delay (ideal)                             0.00   30517.58
+  clock uncertainty                                      -0.50   30517.08
+  output external delay                                  -0.50   30516.58
+  data required time                                             30516.58
+  --------------------------------------------------------------------------
+  data required time                                             30516.58
+  data arrival time                                                 -0.99
+  --------------------------------------------------------------------------
+  slack (MET)                                                    30515.59
+
+
+  Startpoint: io_pads_bootrom_n_i_ival
+              (input port clocked by lfextclk)
+  Endpoint: u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/bootrom_deglitch/T_8_reg
+            (rising edge-triggered flip-flop clocked by lfextclk)
+  Path Group: in2reg
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  e203_soc_top       1000000               saed32rvt_ss0p95v125c
+  sirv_aon_wrapper   35000                 saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock lfextclk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.50       0.50 f
+  io_pads_bootrom_n_i_ival (in)                           0.14       0.64 f
+  u_e203_subsys_top/io_pads_bootrom_n_i_ival (e203_subsys_top)
+                                                          0.00       0.64 f
+  u_e203_subsys_top/u_sirv_aon_top/io_pads_bootrom_n_i_ival (sirv_aon_top)
+                                                          0.00       0.64 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/io_pads_bootrom_n_i_ival (sirv_aon_wrapper)
+                                                          0.00       0.64 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/U141/Y (INVX1_RVT)
+                                                          0.04       0.68 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/bootrom_deglitch/io_d (sirv_DeglitchShiftRegister_2)
+                                                          0.00       0.68 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/bootrom_deglitch/T_8_reg/D (DFFX1_RVT)
+                                                          0.00       0.68 r
+  data arrival time                                                  0.68
+
+  clock lfextclk (rise edge)                          30517.58   30517.58
+  clock network delay (ideal)                             0.00   30517.58
+  clock uncertainty                                      -0.50   30517.08
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/bootrom_deglitch/T_8_reg/CLK (DFFX1_RVT)
+                                                          0.00   30517.08 r
+  library setup time                                     -0.07   30517.01
+  data required time                                             30517.01
+  --------------------------------------------------------------------------
+  data required time                                             30517.01
+  data arrival time                                                 -0.68
+  --------------------------------------------------------------------------
+  slack (MET)                                                    30516.33
+
+
+  Startpoint: lfextclk (clock source 'lfextclk')
+  Endpoint: io_pads_gpio_29_o_oval
+            (output port clocked by lfextclk)
+  Path Group: lfextclk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  e203_soc_top       1000000               saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock lfextclk (fall edge)                          15258.79   15258.79
+  input external delay                                    0.50   15259.29 f
+  lfextclk (in)                                           0.00 # 15259.29 f
+  u_e203_subsys_top/lfextclk (e203_subsys_top)            0.00 # 15259.29 f
+  u_e203_subsys_top/u_sirv_aon_top/lfextclk (sirv_aon_top)
+                                                          0.00 # 15259.29 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/io_pads_lfextclk_i_ival (sirv_aon_wrapper)
+                                                          0.00 # 15259.29 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/inspect_32k_clk (sirv_aon_wrapper)
+                                                          0.00 # 15259.29 f
+  u_e203_subsys_top/u_sirv_aon_top/inspect_32k_clk (sirv_aon_top)
+                                                          0.00 # 15259.29 f
+  u_e203_subsys_top/u_e203_subsys_main/inspect_32k_clk (e203_subsys_main)
+                                                          0.00 # 15259.29 f
+  u_e203_subsys_top/u_e203_subsys_main/U56/Y (AO22X1_RVT)
+                                                          0.18 # 15259.47 f
+  u_e203_subsys_top/u_e203_subsys_main/io_pads_gpio_29_o_oval (e203_subsys_main)
+                                                          0.00   15259.47 f
+  u_e203_subsys_top/io_pads_gpio_29_o_oval (e203_subsys_top)
+                                                          0.00   15259.47 f
+  io_pads_gpio_29_o_oval (out)                            0.00   15259.47 f
+  data arrival time                                              15259.47
+
+  clock lfextclk (rise edge)                          30517.58   30517.58
+  clock network delay (ideal)                             0.00   30517.58
+  clock uncertainty                                      -0.50   30517.08
+  output external delay                                  -0.50   30516.58
+  data required time                                             30516.58
+  --------------------------------------------------------------------------
+  data required time                                             30516.58
+  data arrival time                                              -15259.47
+  --------------------------------------------------------------------------
+  slack (MET)                                                    15257.11
+
+
+  Startpoint: u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/AsyncResetRegVec_1_1/reg_3/q_reg
+              (rising edge-triggered flip-flop clocked by lfextclk)
+  Endpoint: io_pads_aon_pmu_padrst_o_oval
+            (output port clocked by lfextclk)
+  Path Group: reg2out
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  e203_soc_top       1000000               saed32rvt_ss0p95v125c
+  sirv_AsyncResetReg_8
+                     ForQA                 saed32rvt_ss0p95v125c
+  sirv_pmu           8000                  saed32rvt_ss0p95v125c
+  sirv_aon           16000                 saed32rvt_ss0p95v125c
+  e203_subsys_top    1000000               saed32rvt_ss0p95v125c
+  sirv_aon_top       35000                 saed32rvt_ss0p95v125c
+  sirv_aon_wrapper   35000                 saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock lfextclk (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/AsyncResetRegVec_1_1/reg_3/q_reg/CLK (DFFARX1_RVT)
+                                                          0.00 #     0.00 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/AsyncResetRegVec_1_1/reg_3/q_reg/Q (DFFARX1_RVT)
+                                                          0.22       0.22 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/AsyncResetRegVec_1_1/reg_3/U4/Y (DELLN2X2_RVT)
+                                                          0.30       0.53 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/AsyncResetRegVec_1_1/reg_3/q (sirv_AsyncResetReg_8)
+                                                          0.00       0.53 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/AsyncResetRegVec_1_1/io_q[3] (sirv_AsyncResetRegVec_1)
+                                                          0.00       0.53 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/U24/Y (INVX1_RVT)
+                                                          0.02       0.55 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/u_sirv_pmu/io_control_corerst (sirv_pmu)
+                                                          0.00       0.55 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/U590/Y (AO22X1_RVT)
+                                                          0.07       0.62 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/io_moff_corerst (sirv_aon)
+                                                          0.00       0.62 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/U20/Y (AO22X1_RVT)
+                                                          0.07       0.68 r
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/U137/Y (NOR2X0_RVT)
+                                                          0.07       0.76 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/U17/Y (AO22X1_RVT)
+                                                          0.04       0.80 f
+  u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/io_pads_pmu_padrst_o_oval (sirv_aon_wrapper)
+                                                          0.00       0.80 f
+  u_e203_subsys_top/u_sirv_aon_top/io_pads_aon_pmu_padrst_o_oval (sirv_aon_top)
+                                                          0.00       0.80 f
+  u_e203_subsys_top/io_pads_aon_pmu_padrst_o_oval (e203_subsys_top)
+                                                          0.00       0.80 f
+  io_pads_aon_pmu_padrst_o_oval (out)                     0.00       0.80 f
+  data arrival time                                                  0.80
+
+  clock lfextclk (rise edge)                          30517.58   30517.58
+  clock network delay (ideal)                             0.00   30517.58
+  clock uncertainty                                      -0.50   30517.08
+  output external delay                                  -0.50   30516.58
+  data required time                                             30516.58
+  --------------------------------------------------------------------------
+  data required time                                             30516.58
+  data arrival time                                                 -0.80
+  --------------------------------------------------------------------------
+  slack (MET)                                                    30515.78
+
+
+1

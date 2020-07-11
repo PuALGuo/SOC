@@ -1,0 +1,133 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : conv_top
+Version: H-2013.03-SP2
+Date   : Thu Jul  9 15:01:13 2020
+****************************************
+
+Operating Conditions: ss0p95v125c   Library: saed32rvt_ss0p95v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: conv_core/input_slice_reg[3][3][0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: conv_core/output_buffer_reg[1][6][7]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  conv_top           35000                 saed32rvt_ss0p95v125c
+  conv               35000                 saed32rvt_ss0p95v125c
+  conv_DW02_mult_17  8000                  saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  conv_core/input_slice_reg[3][3][0]/CLK (DFFARX1_RVT)
+                                                          0.00       0.00 r
+  conv_core/input_slice_reg[3][3][0]/Q (DFFARX1_RVT)      0.24       0.24 r
+  conv_core/U2829/Y (INVX1_RVT)                           0.03       0.26 f
+  conv_core/U2830/Y (INVX1_RVT)                           0.04       0.31 r
+  conv_core/mult_278_3/A[0] (conv_DW02_mult_17)           0.00       0.31 r
+  conv_core/mult_278_3/U45/Y (NOR2X0_RVT)                 0.08       0.38 f
+  conv_core/mult_278_3/U5/Y (XNOR2X1_RVT)                 0.11       0.49 f
+  conv_core/mult_278_3/S2_2_5/S (FADDX1_RVT)              0.15       0.64 r
+  conv_core/mult_278_3/S2_3_4/S (FADDX1_RVT)              0.15       0.79 f
+  conv_core/mult_278_3/S2_4_3/S (FADDX1_RVT)              0.15       0.94 r
+  conv_core/mult_278_3/S2_5_2/S (FADDX1_RVT)              0.15       1.08 f
+  conv_core/mult_278_3/S2_6_1/S (FADDX1_RVT)              0.15       1.23 r
+  conv_core/mult_278_3/S4_0/S (FADDX1_RVT)                0.15       1.38 f
+  conv_core/mult_278_3/S14_7_0/S (FADDX1_RVT)             0.15       1.53 r
+  conv_core/mult_278_3/PRODUCT[7] (conv_DW02_mult_17)     0.00       1.53 r
+  conv_core/add_4_root_add_0_root_add_417_2/B[7] (conv_DW01_add_30)
+                                                          0.00       1.53 r
+  conv_core/add_4_root_add_0_root_add_417_2/U1_7/S (FADDX1_RVT)
+                                                          0.15       1.68 f
+  conv_core/add_4_root_add_0_root_add_417_2/SUM[7] (conv_DW01_add_30)
+                                                          0.00       1.68 f
+  conv_core/add_3_root_add_0_root_add_417_2/B[7] (conv_DW01_add_29)
+                                                          0.00       1.68 f
+  conv_core/add_3_root_add_0_root_add_417_2/U1_7/S (FADDX1_RVT)
+                                                          0.15       1.83 r
+  conv_core/add_3_root_add_0_root_add_417_2/SUM[7] (conv_DW01_add_29)
+                                                          0.00       1.83 r
+  conv_core/add_1_root_add_0_root_add_417_2/B[7] (conv_DW01_add_25)
+                                                          0.00       1.83 r
+  conv_core/add_1_root_add_0_root_add_417_2/U1_7/S (FADDX1_RVT)
+                                                          0.15       1.99 f
+  conv_core/add_1_root_add_0_root_add_417_2/SUM[7] (conv_DW01_add_25)
+                                                          0.00       1.99 f
+  conv_core/add_0_root_add_0_root_add_417_2/B[7] (conv_DW01_add_24)
+                                                          0.00       1.99 f
+  conv_core/add_0_root_add_0_root_add_417_2/U1_7/S (FADDX1_RVT)
+                                                          0.14       2.12 r
+  conv_core/add_0_root_add_0_root_add_417_2/SUM[7] (conv_DW01_add_24)
+                                                          0.00       2.12 r
+  conv_core/U1369/Y (AO22X1_RVT)                          0.07       2.19 r
+  conv_core/U2232/Y (NBUFFX2_RVT)                         0.07       2.26 r
+  conv_core/U1401/Y (AO22X1_RVT)                          0.08       2.34 r
+  conv_core/U1400/Y (DELLN2X2_RVT)                        0.28       2.62 r
+  conv_core/output_buffer_reg[1][6][7]/D (DFFARX1_RVT)
+                                                          0.00       2.62 r
+  data arrival time                                                  2.62
+
+  clock clk (rise edge)                                  10.00      10.00
+  clock network delay (ideal)                             0.00      10.00
+  clock uncertainty                                      -0.50       9.50
+  conv_core/output_buffer_reg[1][6][7]/CLK (DFFARX1_RVT)
+                                                          0.00       9.50 r
+  library setup time                                     -0.06       9.44
+  data required time                                                 9.44
+  --------------------------------------------------------------------------
+  data required time                                                 9.44
+  data arrival time                                                 -2.62
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.81
+
+
+  Startpoint: conv_core/present_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: conv_icb_cmd_addr[2]
+            (output port clocked by clk)
+  Path Group: reg2out
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  conv_top           35000                 saed32rvt_ss0p95v125c
+  conv               35000                 saed32rvt_ss0p95v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  conv_core/present_reg[0]/CLK (DFFARX1_RVT)              0.00       0.00 r
+  conv_core/present_reg[0]/Q (DFFARX1_RVT)                0.26       0.26 r
+  conv_core/U1872/Y (NAND2X0_RVT)                         0.06       0.32 f
+  conv_core/U2423/Y (INVX1_RVT)                           0.03       0.35 r
+  conv_core/U1870/Y (AND2X1_RVT)                          0.06       0.41 r
+  conv_core/U2449/Y (NBUFFX2_RVT)                         0.06       0.47 r
+  conv_core/U1842/Y (AO222X1_RVT)                         0.13       0.60 r
+  conv_core/conv_icb_cmd_addr[2] (conv)                   0.00       0.60 r
+  conv_icb_cmd_addr[2] (out)                              0.00       0.60 r
+  data arrival time                                                  0.60
+
+  clock clk (rise edge)                                  10.00      10.00
+  clock network delay (ideal)                             0.00      10.00
+  clock uncertainty                                      -0.50       9.50
+  output external delay                                  -0.50       9.00
+  data required time                                                 9.00
+  --------------------------------------------------------------------------
+  data required time                                                 9.00
+  data arrival time                                                 -0.60
+  --------------------------------------------------------------------------
+  slack (MET)                                                        8.40
+
+
+1

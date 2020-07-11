@@ -1,0 +1,30 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : e203_soc_top
+Version: H-2013.03-SP2
+Date   : Sat Jul 11 15:22:32 2020
+****************************************
+
+
+   multiport_net
+
+                             Required        Actual
+   Net                          Cost           Cost          Violation
+   -----------------------------------------------------------------
+   u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/clk
+                                0.00           1.00          -1.00  (VIOLATED)
+   u_e203_subsys_top/u_e203_subsys_main/u_e203_cpu_top/u_e203_cpu/u_e203_clk_ctrl/clk
+                                0.00           1.00          -1.00  (VIOLATED)
+   u_e203_subsys_top/u_e203_subsys_main/u_e203_subsys_hclkgen/hfextclk
+                                0.00           1.00          -1.00  (VIOLATED)
+   u_e203_subsys_top/u_e203_subsys_main/u_e203_subsys_hclkgen/u_e203_subsys_pll/plloutclk
+                                0.00           1.00          -1.00  (VIOLATED)
+   u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/inspect_32k_clk
+                                0.00           1.00          -1.00  (VIOLATED)
+   u_e203_subsys_top/u_sirv_aon_top/u_sirv_aon_wrapper/u_sirv_aon/io_lfclk
+                                0.00           1.00          -1.00  (VIOLATED)
+
+
+1
