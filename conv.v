@@ -164,7 +164,7 @@ always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
         wgt_rsp_cct <=  4'b0;
-    else if (wgt_cmd_cnt == 2'b10 && conv_icb_rsp)
+    else if (wgt_rsp_cnt == 2'b10 && conv_icb_rsp)
         wgt_rsp_cct <= wgt_rsp_cct + 1'b1;
     else
         wgt_rsp_cct <= wgt_rsp_cct;
@@ -208,7 +208,7 @@ always @(posedge clk or negedge rst_n)
 begin
     if (!rst_n)
         inp_rsp_cct <=  4'b0;
-    else if (inp_rsp_cnt == 6'd33 && conv_icb_cmd_rd)
+    else if (inp_rsp_cnt == 6'd33 && conv_icb_rsp)
         inp_rsp_cct <= inp_rsp_cct + 1'b1;
     else
         inp_rsp_cct <= inp_rsp_cct;
@@ -318,15 +318,15 @@ begin
     end
     else if (present == RWGT && conv_icb_rsp)
     begin
-        weight_slice[wgt_rsp_cnt 3 + 1][1] <= input_data[1];
-        weight_slice[wgt_rsp_cnt 3 + 1][2] <= input_data[2];
-        weight_slice[wgt_rsp_cnt 3 + 1][3] <= input_data[2];
+        weight_slice[wgt_rsp_cnt + 1][1] <= input_data[1];
+        weight_slice[wgt_rsp_cnt + 1][2] <= input_data[2];
+        weight_slice[wgt_rsp_cnt + 1][3] <= input_data[2];
     end
     else
     begin
-        weight_slice[wgt_rsp_cnt 3 + 1][1] <= weight_slice[wgt_rsp_cnt + 1][1];
-        weight_slice[wgt_rsp_cnt 3 + 1][2] <= weight_slice[wgt_rsp_cnt + 1][2];
-        weight_slice[wgt_rsp_cnt 3 + 1][3] <= weight_slice[wgt_rsp_cnt + 1][3];
+        weight_slice[wgt_rsp_cnt + 1][1] <= weight_slice[wgt_rsp_cnt + 1][1];
+        weight_slice[wgt_rsp_cnt + 1][2] <= weight_slice[wgt_rsp_cnt + 1][2];
+        weight_slice[wgt_rsp_cnt + 1][3] <= weight_slice[wgt_rsp_cnt + 1][3];
     end
 end
 //////ICB
@@ -419,8 +419,8 @@ begin
     end
     else
     begin
-        output_buffer[1][inp_rsp_cnt - 2] <= output_buffer[1][(inp_rsp_cnt - 1];
-        output_buffer[2][inp_rsp_cnt - 2] <= output_buffer[2][(inp_rsp_cnt - 1];
+        output_buffer[1][inp_rsp_cnt - 2] <= output_buffer[1][inp_rsp_cnt - 1];
+        output_buffer[2][inp_rsp_cnt - 2] <= output_buffer[2][inp_rsp_cnt - 1];
     end
 end
 //output输出
